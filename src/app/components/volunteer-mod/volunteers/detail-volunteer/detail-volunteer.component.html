@@ -1,0 +1,264 @@
+<app-header [title]="headerTitle" [color]="headerColor" [icon]="headerIcon">
+</app-header>
+
+<div class="container" fxLayout fxLayoutAlign="center center">
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          >{{ volunteer.firstName }} {{ volunteer.lastName }}</mat-card-title
+        >
+        <mat-card-subtitle>Email: {{ volunteer.email }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content align="center">
+        <mat-accordion>
+          <!-- Volunteer Address -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Volunteer Address </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="address-title">Address 1:</span>
+                {{ volunteer.address1 }}
+                <span *ngIf="!volunteer.address1"> N/A </span>
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="address-title">Address 2:</span>
+                {{ volunteer.address2 }}
+                <span *ngIf="!volunteer.address2"> N/A </span>
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="address-title">City:</span>
+                {{ volunteer.city }}
+                <span *ngIf="!volunteer.city"> N/A </span>
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="address-title">State:</span>
+                {{ volunteer.state }}
+                <span *ngIf="!volunteer.state"> N/A </span>
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="address-title">Zipcode:</span>
+                {{ volunteer.zipcode }}
+                <span *ngIf="!volunteer.zipcode"> N/A </span>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <!-- Volunteer Available Mass Times -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Volunteer Available Mass Times
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="row" fxLayoutAlign="space-evenly">
+              <div fxLayout="column">
+                <p fxFlexAlign="end">
+                  <span>Saturday: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isSaturday"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Sunday-Early: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isSundayEarly"
+                  >
+                  </mat-checkbox>
+                </p>
+              </div>
+              <div fxLayout="column">
+                <p fxFlexAlign="end">
+                  <span>Sunday-Late: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isSundayLate"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Weekdays: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isWeekday"
+                  >
+                  </mat-checkbox>
+                </p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <!-- Volunteer Stewardships -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Volunteer Stewardships </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="row" fxLayoutAlign="space-evenly">
+              <div fxLayout="column">
+                <p fxFlexAlign="end">
+                  <span>EMoHC: </span>
+                  <mat-checkbox [disabled]="true" [checked]="volunteer.isEMoHC">
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Cantor: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isCantor"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Lector: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isLector"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Usher: </span>
+                  <mat-checkbox [disabled]="true" [checked]="volunteer.isUsher">
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Server: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isServer"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Mass Cord: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isMassCoord"
+                  >
+                  </mat-checkbox>
+                </p>
+              </div>
+
+              <div fxLayout="column">
+                <p fxFlexAlign="end">
+                  <span>Gifts: </span>
+                  <mat-checkbox [disabled]="true" [checked]="volunteer.isGifts">
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Gifts Child: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isGiftsChild"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Rosary: </span>
+                  <mat-checkbox
+                    [disabled]="true"
+                    [checked]="volunteer.isRosary"
+                  >
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Technology: </span>
+                  <mat-checkbox [disabled]="true" [checked]="volunteer.isTech">
+                  </mat-checkbox>
+                </p>
+                <p fxFlexAlign="end">
+                  <span>Other: </span>
+                  <mat-checkbox [disabled]="true" [checked]="volunteer.isOther">
+                  </mat-checkbox>
+                </p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <!-- UnAvailable Dates -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Volunteer Dates UnAvailable </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list>
+              <mat-list-item *ngFor="let unDate of volunteer.dateUnAvailable">
+                <span>{{ unDate | date }}</span>
+
+                <span
+                  ><button
+                    mat-icon-button
+                    color="warn"
+                    (click)="onDeleteDateClicked(unDate, id)"
+                  >
+                    <mat-icon>delete_forever</mat-icon>
+                  </button></span
+                >
+              </mat-list-item>
+            </mat-list>
+            <mat-action-row>
+              <button mat-button color="primary" (click)="addUnAvailableDate()">
+                Add Date UnAvailable
+              </button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <!-- Volunteer Admin or Available -->
+        <div class="admin-avail">
+          <p>
+            <span>Is Available: </span>
+            <mat-checkbox [disabled]="true" [checked]="volunteer.isAvailable">
+            </mat-checkbox>
+          </p>
+          <p>
+            <span>Is Administrator: </span>
+            <mat-checkbox [disabled]="true" [checked]="volunteer.isAdmin">
+            </mat-checkbox>
+          </p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <div fxLayout fxLayoutAlign="space-evenly">
+          <button
+            mat-stroked-button
+            routerLink="/volunteers"
+            matRipple
+            color="primary"
+          >
+            <mat-icon>arrow_back</mat-icon>
+            Volunteers
+          </button>
+          <button
+            mat-stroked-button
+            routerLink="/volunteers/edit-volunteer/{{ id }}"
+            matRipple
+            color="accent"
+          >
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button
+            (click)="onDeleteClicked()"
+            mat-stroked-button
+            matRipple
+            color="warn"
+          >
+            <mat-icon>delete_outline</mat-icon>
+            Delete
+          </button>
+        </div>
+      </mat-card-actions>
+      <mat-card-footer align="end">
+        <div class="footer" fxLayout fxLayoutAlign="space-between">
+          <div>
+            <p><span>Family ID:</span> {{ volunteer.familyID }}</p>
+          </div>
+          <div>
+            <p><span>Phone:</span> {{ volunteer.phone | phone }}</p>
+          </div>
+        </div>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Events</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-event-table></app-event-table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Volunteers</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-volunteer-table></app-volunteer-table>
+    </mat-card-content>
+  </mat-card>
+</div>

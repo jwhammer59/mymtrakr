@@ -1,0 +1,27 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div fxLayout="column">
+  <div fxLayout fxLayoutAlign="space-evenly" class="table">
+    <button
+      mat-stroked-button
+      color="primary"
+      routerLink="/familyID/add-familyID"
+    >
+      <mat-icon>add</mat-icon>
+      <mat-icon>family_restroom</mat-icon> Add Family ID
+    </button>
+    <button
+      mat-stroked-button
+      color="accent"
+      [routerLink]="['/printing/family-id']"
+    >
+      <mat-icon>print</mat-icon> Print All Family ID's
+    </button>
+  </div>
+  <div *ngIf="showSpinner" class="table">
+    <app-familyID-table></app-familyID-table>
+  </div>
+</div>

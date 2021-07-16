@@ -1,0 +1,246 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div fxLayout fxLayoutAlign="center center">
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ event.date | date: "longDate" }}</mat-card-title>
+        <mat-card-subtitle>{{ event.type }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content align="center">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Lectors, Cantor & Gift Bearers
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Cantor:</span>
+                {{ event.cantor }}
+                <span *ngIf="!event.cantor">
+                  <mat-icon>no_accounts</mat-icon>
+                </span>
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Lector 1:</span>
+                {{ event.lector1 }}
+                <span *ngIf="!event.lector1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Lector 2:</span>
+                {{ event.lector2 }}
+                <span *ngIf="!event.lector2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Extra Ordinary Ministers of Holy Communion
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 1:</span>
+                {{ event.eMoHC1 }}
+                <span *ngIf="!event.eMoHC1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 2:</span>
+                {{ event.eMoHC2 }}
+                <span *ngIf="!event.eMoHC2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 3:</span>
+                {{ event.eMoHC3 }}
+                <span *ngIf="!event.eMoHC3"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 4:</span>
+                {{ event.eMoHC4 }}
+                <span *ngIf="!event.eMoHC4"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 5:</span>
+                {{ event.eMoHC5 }}
+                <span *ngIf="!event.eMoHC5"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 6:</span>
+                {{ event.eMoHC6 }}
+                <span *ngIf="!event.eMoHC6"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">EMoHC 7:</span>
+                {{ event.eMoHC7 }}
+                <span *ngIf="!event.eMoHC7"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Ushers & Technology </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Usher 1:</span>
+                {{ event.usher1 }}
+                <span *ngIf="!event.usher1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Usher 2:</span>
+                {{ event.usher2 }}
+                <span *ngIf="!event.usher2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Usher 3:</span>
+                {{ event.usher3 }}
+                <span *ngIf="!event.usher3"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Usher 4:</span>
+                {{ event.usher4 }}
+                <span *ngIf="!event.usher4"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Usher 5:</span>
+                {{ event.usher5 }}
+                <span *ngIf="!event.usher5"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Servers, Rosary & Other </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Server 1:</span>
+                {{ event.server1 }}
+                <span *ngIf="!event.server1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Server 2:</span>
+                {{ event.server2 }}
+                <span *ngIf="!event.server2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Server 3:</span>
+                {{ event.server3 }}
+                <span *ngIf="!event.server3"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Rosary 1:</span>
+                {{ event.rosary1 }}
+                <span *ngIf="!event.rosary1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Rosary 2:</span>
+                {{ event.rosary2 }}
+                <span *ngIf="!event.rosary2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Other:</span>
+                {{ event.other }}
+                <span *ngIf="!event.other"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <div fxLayout fxLayoutAlign="space-evenly">
+          <button
+            mat-stroked-button
+            routerLink="/events"
+            matRipple
+            color="primary"
+          >
+            <mat-icon>arrow_back</mat-icon>
+            Events
+          </button>
+          <button
+            mat-stroked-button
+            routerLink="/events/edit-event/{{ id }}"
+            matRipple
+          >
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button
+            mat-stroked-button
+            color="accent"
+            [routerLink]="['/printing/schedule/', id]"
+          >
+            <mat-icon>print</mat-icon>
+            Print
+          </button>
+          <button
+            (click)="onDeleteClicked()"
+            mat-stroked-button
+            matRipple
+            color="warn"
+          >
+            <mat-icon>delete_outline</mat-icon>
+            Delete
+          </button>
+        </div>
+      </mat-card-actions>
+      <mat-card-footer align="end">
+        <p>
+          <span>Event is Full: </span>
+          <mat-checkbox [disabled]="true" [checked]="event.isFull">
+          </mat-checkbox>
+        </p>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

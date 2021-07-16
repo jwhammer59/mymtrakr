@@ -1,0 +1,38 @@
+.header {
+  margin-left: 2rem;
+}
+
+.layout {
+  width: 80%;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  margin: 1.5rem 0;
+}
+
+.ck-main {
+  -webkit-box-shadow: 10px 10px 5px 3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 3px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 5px 3px 2px rgba(0, 0, 0, 0.75);
+  padding: 10px 10px;
+  background-color: #9572d1;
+  color: white;
+  min-width: 125px;
+}
+
+.confirm {
+  margin: 1rem 0 1.5rem 0;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+mat-card {
+  margin: 1rem 1rem;
+  width: 95%;
+}

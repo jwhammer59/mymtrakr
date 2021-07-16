@@ -1,0 +1,40 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Print All Family ID's</mat-card-title>
+  </mat-card-header>
+  <mat-card-content id="print-section">
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let id of familyIdArray">
+        <div fxLayout="column" fxLayoutAlign="space-between">
+          <div>
+            <span>Family ID:</span>
+            <span>{{ id.familyID }}</span>
+          </div>
+          <div>
+            <span>Family Member Name:</span>
+            <span>{{ id.householdFullName }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button color="primary" routerLink="/familyID">
+      <mat-icon>arrow_back</mat-icon> Family ID
+    </button>
+    <button
+      mat-stroked-button
+      color="accent"
+      printSectionId="print-section"
+      ngxPrint
+    >
+      <mat-icon>print</mat-icon> Print
+    </button>
+  </mat-card-actions>
+</mat-card>

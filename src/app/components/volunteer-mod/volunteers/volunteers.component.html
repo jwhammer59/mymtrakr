@@ -1,0 +1,19 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div fxLayout="column">
+  <div fxFlexAlign="center" class="table">
+    <button
+      mat-stroked-button
+      color="primary"
+      routerLink="/volunteers/add-volunteer"
+    >
+      <mat-icon>person_add</mat-icon> Add Volunteer
+    </button>
+  </div>
+  <div class="table">
+    <app-volunteer-table></app-volunteer-table>
+  </div>
+</div>

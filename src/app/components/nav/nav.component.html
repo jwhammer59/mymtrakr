@@ -1,0 +1,85 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/register">
+        <mat-icon>create</mat-icon>
+        Register
+      </a>
+      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Login
+      </a>
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a *ngIf="isLoggedIn" mat-list-item [matMenuTriggerFor]="events">
+        <mat-icon>event</mat-icon>
+        Events
+      </a>
+      <mat-menu #events="matMenu">
+        <button mat-menu-item routerLink="/events">
+          <mat-icon>table_row</mat-icon>
+          Events Table
+        </button>
+        <button mat-menu-item routerLink="/events/add-event">
+          <mat-icon>event_available</mat-icon>
+          Add Events
+        </button>
+      </mat-menu>
+      <a *ngIf="isLoggedIn" mat-list-item [matMenuTriggerFor]="volunteers">
+        <mat-icon>people</mat-icon>
+        Volunteers
+      </a>
+      <mat-menu #volunteers="matMenu">
+        <button mat-menu-item routerLink="/volunteers">
+          <mat-icon>table_row</mat-icon>
+          Volunteer Table
+        </button>
+        <button mat-menu-item routerLink="/volunteers/add-volunteer">
+          <mat-icon>person_add</mat-icon>
+          Add Volunteer
+        </button>
+      </mat-menu>
+      <a *ngIf="isLoggedIn" mat-list-item [matMenuTriggerFor]="settings">
+        <mat-icon>settings</mat-icon>
+        Settings
+      </a>
+      <mat-menu #settings="matMenu">
+        <button mat-menu-item routerLink="/familyID">
+          <mat-icon>family_restroom</mat-icon>
+          Family ID's
+        </button>
+      </mat-menu>
+      <a *ngIf="isLoggedIn" mat-list-item>{{ loggedInUser }}</a>
+      <a *ngIf="isLoggedIn" mat-list-item (click)="onLogoutClick()">
+        <mat-icon>arrow_back</mat-icon>
+        Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="mat-elevation-z5">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <a class="home-link" routerLink="/">Ministry Trakr Plus</a>
+    </mat-toolbar>
+    <app-loading></app-loading>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

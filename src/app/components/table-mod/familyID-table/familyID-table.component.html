@@ -1,0 +1,69 @@
+<div *ngIf="true; else noData">
+  <div class="mat-elevation-z8">
+    <table mat-table class="full-width-table" matSort>
+      <!-- Head of House Column-->
+      <ng-container matColumnDef="householdFullName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h3>Head of House</h3>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.householdFullName }}</td>
+      </ng-container>
+
+      <!-- Family ID Column-->
+      <ng-container matColumnDef="familyID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h3>Family ID</h3>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.familyID }}</td>
+      </ng-container>
+
+      <!-- Is Active Column-->
+      <ng-container matColumnDef="isActive">
+        <th class="detail-align" mat-header-cell *matHeaderCellDef>
+          <h3>Is Active</h3>
+        </th>
+        <td class="detail-align" mat-cell *matCellDef="let row">
+          <mat-checkbox [checked]="row.isActive" disabled></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!--Button Column -->
+      <ng-container matColumnDef="button">
+        <th class="detail-align" mat-header-cell *matHeaderCellDef>
+          <h3>Actions</h3>
+        </th>
+        <td class="detail-align" mat-cell *matCellDef="let row">
+          <button
+            mat-stroked-button
+            routerLink="/familyID/edit-familyID/{{ row.id }}"
+            color="accent"
+          >
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+          <button
+            (click)="onDeleteClicked(row)"
+            mat-stroked-button
+            color="warn"
+          >
+            <mat-icon>delete_outline</mat-icon> Delete
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      #paginator
+      [length]="dataSource?.data.length"
+      [pageIndex]="0"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+    >
+    </mat-paginator>
+  </div>
+</div>
+<ng-template #noData>
+  <h1>No Events...</h1>
+</ng-template>

@@ -1,0 +1,69 @@
+<div class="main" fxLayout fxLayoutAlign="center center">
+  <mat-card>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayout fxLayoutAlign="center center">
+        <div>
+          <h2>Register</h2>
+        </div>
+        <div>
+          <mat-icon>person_add</mat-icon>
+        </div>
+      </div>
+      <div>
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit(registerForm)"
+          novalidate
+        >
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Enter your email"
+                formControlName="email"
+                required
+              />
+              <mat-error *ngIf="f.email.invalid">{{
+                getEmailErrorMessage()
+              }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Enter your password"
+                formControlName="password"
+                type="password"
+                required
+              />
+              <mat-error *ngIf="f.password.invalid">
+                {{ getPasswordErrorMessage() }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Confirm your password"
+                formControlName="passwordConfirm"
+                type="password"
+                required
+              />
+              <mat-error *ngIf="f.passwordConfirm.invalid">
+                {{ getPasswordConfirmErrorMessage() }}
+              </mat-error>
+            </mat-form-field>
+            <button
+              type="submit"
+              value="Submit"
+              mat-raised-button
+              color="primary"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,32 @@
+export class Event {
+  id?: string;
+  date: any;
+  type: string;
+  isFull: boolean;
+  cantor: string;
+  lector1: string;
+  lector2: string;
+  eMoHC1: string;
+  eMoHC2: string;
+  eMoHC3: string;
+  eMoHC4: string;
+  eMoHC5: string;
+  eMoHC6: string;
+  eMoHC7: string;
+  gifts: string;
+  giftsChild: string;
+  rosary1: string;
+  rosary2: string;
+  other: string;
+  usher1: string;
+  usher2: string;
+  usher3: string;
+  usher4: string;
+  usher5: string;
+  massCord: string;
+  server1: string;
+  server2: string;
+  server3: string;
+  tech1: string;
+  tech2: string;
+}

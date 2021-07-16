@@ -1,0 +1,74 @@
+<app-header [title]="headerTitle" [color]="headerColor"></app-header>
+<div fxLayout fxLayoutAlign="center center">
+  <mat-card>
+    <form
+      [formGroup]="familyIdForm"
+      (ngSubmit)="onSubmit(familyIdForm)"
+      novalidate
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="layout">
+          <table>
+            <tr
+              fxLayout
+              fxLayout.lt-md="column"
+              fxLayoutAlign="space-between"
+              fxLayoutAlign.lt-md="center center"
+            >
+              <td>
+                <mat-form-field appearance="outline">
+                  <mat-label>Household Full Name</mat-label>
+                  <input
+                    matInput
+                    placeholder="Please enter name."
+                    formControlName="householdFullName"
+                    required
+                  />
+                  <mat-error>
+                    Please enter a Head of Household
+                  </mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field appearance="outline">
+                  <mat-label>Family ID</mat-label>
+                  <input
+                    matInput
+                    placeholder="Please enter Family ID"
+                    formControlName="familyID"
+                    required
+                  />
+                  <mat-error>Please enter a Family ID.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <div fxLayout fxLayoutAlign="center center">
+            <mat-checkbox formControlName="isActive">
+              Is Active
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div
+        class="confirm"
+        fxLayout
+        fxLayout.lt-md="column"
+        fxLayoutAlign="space-evenly"
+      >
+        <button mat-stroked-button color="primary" routerLink="/familyID">
+          <mat-icon>arrow_back</mat-icon>
+          Family ID
+        </button>
+        <button mat-stroked-button color="primary" type="submit" value="Submit">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <button mat-stroked-button color="warn" routerLink="/familyID">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

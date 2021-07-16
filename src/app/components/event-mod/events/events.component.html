@@ -1,0 +1,15 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div fxLayout="column">
+  <div fxFlexAlign="center" class="table">
+    <button mat-stroked-button color="primary" routerLink="/events/add-event">
+      <mat-icon>event_available</mat-icon> Add Event
+    </button>
+  </div>
+  <div class="table">
+    <app-event-table></app-event-table>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div class="container">
+  <div fxLayout="column" fxLayoutAlign="space-around" id="print-section">
+    <div class="layout" fxFlexAlign="center">
+      <h2>Event Date: {{ event.date | date: "longDate" }}</h2>
+    </div>
+    <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <p *ngIf="event.type">
+          <span class="title">Event Type: </span>{{ event.type }}
+        </p>
+        <p *ngIf="event.cantor">
+          <span class="title">Cantor: </span>{{ event.cantor }}
+        </p>
+        <p *ngIf="event.lector1">
+          <span class="title">Lector 1: </span>{{ event.lector1 }}
+        </p>
+        <p *ngIf="event.lector2">
+          <span class="title">Lector 2: </span>{{ event.lector2 }}
+        </p>
+        <p *ngIf="event.server1">
+          <span class="title">Server 1: </span>{{ event.server1 }}
+        </p>
+        <p *ngIf="event.server2">
+          <span class="title">Server 2: </span>{{ event.server2 }}
+        </p>
+        <p *ngIf="event.server3">
+          <span class="title">Server 3: </span>{{ event.server3 }}
+        </p>
+        <p *ngIf="event.gifts">
+          <span class="title">Gifts: </span>{{ event.gifts }}
+        </p>
+        <p *ngIf="event.giftsChild">
+          <span class="title">Child Gifts: </span>{{ event.giftsChild }}
+        </p>
+      </div>
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <p *ngIf="event.eMoHC1">
+          <span class="title">EMoHC 1: </span>{{ event.eMoHC1 }}
+        </p>
+        <p *ngIf="event.eMoHC2">
+          <span class="title">EMoHC 2: </span>{{ event.eMoHC2 }}
+        </p>
+        <p *ngIf="event.eMoHC3">
+          <span class="title">EMoHC 3: </span>{{ event.eMoHC3 }}
+        </p>
+        <p *ngIf="event.eMoHC4">
+          <span class="title">EMoHC 4: </span>{{ event.eMoHC4 }}
+        </p>
+        <p *ngIf="event.eMoHC5">
+          <span class="title">EMoHC 5: </span>{{ event.eMoHC5 }}
+        </p>
+        <p *ngIf="event.eMoHC6">
+          <span class="title">EMoHC 6: </span>{{ event.eMoHC6 }}
+        </p>
+        <p *ngIf="event.eMoHC7">
+          <span class="title">EMoHC 7: </span>{{ event.eMoHC7 }}
+        </p>
+        <p *ngIf="event.rosary1">
+          <span class="title">Rosary 1: </span>{{ event.rosary1 }}
+        </p>
+        <p *ngIf="event.rosary2">
+          <span class="title">Rosary 2: </span>{{ event.rosary2 }}
+        </p>
+      </div>
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <p *ngIf="event.usher1">
+          <span class="title">Usher 1: </span>{{ event.usher1 }}
+        </p>
+        <p *ngIf="event.usher2">
+          <span class="title">Usher 2: </span>{{ event.usher2 }}
+        </p>
+        <p *ngIf="event.usher3">
+          <span class="title">Usher 3: </span>{{ event.usher3 }}
+        </p>
+        <p *ngIf="event.usher4">
+          <span class="title">Usher 4: </span>{{ event.usher4 }}
+        </p>
+        <p *ngIf="event.usher5">
+          <span class="title">Usher 5: </span>{{ event.usher5 }}
+        </p>
+        <p *ngIf="event.tech1">
+          <span class="title">Tech 1: </span>{{ event.tech1 }}
+        </p>
+        <p *ngIf="event.tech2">
+          <span class="title">Tech 2: </span>{{ event.tech2 }}
+        </p>
+        <p *ngIf="event.massCord">
+          <span class="title">Mass Cord: </span>{{ event.massCord }}
+        </p>
+        <p *ngIf="event.other">
+          <span class="title">Other: </span>{{ event.other }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-divider></mat-divider>
+  </div>
+  <div class="layout">
+    <div fxLayout fxLayoutAlign="space-around">
+      <div>
+        <button mat-stroked-button color="primary" routerLink="/events">
+          <mat-icon>arrow_back</mat-icon> Events
+        </button>
+      </div>
+      <div>
+        <button
+          mat-stroked-button
+          color="accent"
+          printSectionId="print-section"
+          ngxPrint
+        >
+          <mat-icon>print</mat-icon> Print
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

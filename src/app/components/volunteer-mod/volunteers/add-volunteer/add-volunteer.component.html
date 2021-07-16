@@ -1,0 +1,222 @@
+<app-header [title]="headerTitle" [color]="headerColor" [icon]="headerIcon">
+</app-header>
+<div fxLayout fxLayoutAlign="center center">
+  <mat-card>
+    <form
+      [formGroup]="volunteerForm"
+      (ngSubmit)="onSubmit(volunteerForm)"
+      novalidate
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="First Name"
+                    formControlName="firstName"
+                    required
+                  />
+                  <mat-error>Please enter a first name.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Last Name"
+                    formControlName="lastName"
+                    required
+                  />
+                  <mat-error>Please enter a last name.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <mat-label>Family ID</mat-label>
+                  <mat-select formControlName="familyID">
+                    <mat-option [value]="''">--</mat-option>
+                    <mat-option
+                      *ngFor="let familyId of allFamilyIDs$ | async"
+                      [value]="familyId.familyID"
+                    >
+                      {{ familyId.familyID }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>Please enter family ID</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="layout">
+          <mat-form-field fxFlexFill appearance="outline">
+            <input
+              matInput
+              placeholder="Address"
+              formControlName="address1"
+              required
+            />
+            <mat-error>Please enter a street address.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="layout">
+          <mat-form-field fxFlexFill appearance="outline">
+            <input
+              matInput
+              placeholder="PO Box, Suite ..."
+              formControlName="address2"
+            />
+          </mat-form-field>
+        </div>
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="City"
+                    formControlName="city"
+                    required
+                  />
+                  <mat-error>Please enter a city.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="State"
+                    formControlName="state"
+                    required
+                  />
+                  <mat-error>Please enter a state.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    #zip
+                    matInput
+                    placeholder="Zip"
+                    formControlName="zipcode"
+                    maxLength="5"
+                    required
+                  />
+                  <mat-hint align="end">{{ zip.value.length }} / 5</mat-hint>
+                  <mat-error>Please enter a valid zip code.</mat-error>
+                  <mat-error>Zip code must be 5 digits.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="email"
+                    required
+                  />
+                  <mat-error>Please enter a valid email address.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    #phone
+                    matInput
+                    placeholder="Phone"
+                    formControlName="phone"
+                    maxLength="10"
+                    required
+                  />
+                  <mat-hint align="end">{{ phone.value.length }} / 10</mat-hint>
+                  <mat-error>Please enter a phone number.</mat-error>
+                  <mat-error>Phone number must be 10 digits.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <mat-divider [inset]="true"></mat-divider>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="layout">
+          <h3>Volunteer Status</h3>
+          <div class="confirm" fxLayout fxLayoutAlign="space-around">
+            <mat-checkbox formControlName="isAvailable"
+              >Is Available</mat-checkbox
+            >
+            <mat-checkbox formControlName="isAdmin">Is Admin</mat-checkbox>
+          </div>
+          <mat-divider [inset]="true"></mat-divider>
+          <h3>Volunteer Available Mass Times</h3>
+          <div class="confirm" fxLayout fxLayoutAlign="space-around">
+            <mat-checkbox formControlName="isSaturday">Saturday</mat-checkbox>
+            <mat-checkbox formControlName="isSundayEarly"
+              >Sunday Early</mat-checkbox
+            >
+            <mat-checkbox formControlName="isSundayLate"
+              >Sunday Late</mat-checkbox
+            >
+            <mat-checkbox formControlName="isWeekday">Weekday</mat-checkbox>
+          </div>
+          <mat-divider [inset]="true"></mat-divider>
+          <h3>Volunteer Ministries</h3>
+          <div class="confirm" fxLayout fxLayoutAlign="space-around">
+            <div fxLayout="column">
+              <mat-checkbox formControlName="isCantor">Cantor</mat-checkbox>
+              <mat-checkbox formControlName="isLector">Lector</mat-checkbox>
+              <mat-checkbox formControlName="isEMoHC">EMoHC</mat-checkbox>
+              <mat-checkbox formControlName="isUsher">Usher</mat-checkbox>
+            </div>
+            <div fxLayout="column">
+              <mat-checkbox formControlName="isServer">Server</mat-checkbox>
+              <mat-checkbox formControlName="isGifts">Gifts</mat-checkbox>
+              <mat-checkbox formControlName="isGiftsChild"
+                >Child Gifts</mat-checkbox
+              >
+              <mat-checkbox formControlName="isRosary">Rosary</mat-checkbox>
+            </div>
+            <div fxLayout="column">
+              <mat-checkbox formControlName="isTech">Technology</mat-checkbox>
+              <mat-checkbox formControlName="isOther">Other</mat-checkbox>
+              <mat-checkbox formControlName="isMassCoord"
+                >Mass Coordinator</mat-checkbox
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="confirm"
+        fxLayout
+        fxLayout.lt-md="column"
+        fxLayoutAlign="space-evenly"
+      >
+        <button mat-stroked-button color="primary" routerLink="/volunteers">
+          <mat-icon>arrow_back</mat-icon>
+          Volunteers
+        </button>
+        <button mat-stroked-button color="primary" type="submit" value="Submit">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <button mat-stroked-button color="warn" routerLink="/volunteers">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
