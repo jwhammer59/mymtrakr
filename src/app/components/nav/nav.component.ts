@@ -16,6 +16,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class NavComponent implements OnInit {
   isLoggedIn: boolean;
   loggedInUser: string;
+  churchName: string = 'All Saints';
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

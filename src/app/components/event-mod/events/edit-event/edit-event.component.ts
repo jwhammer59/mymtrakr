@@ -25,7 +25,7 @@ import { tap, map } from 'rxjs/operators';
 export class EditEventComponent implements OnInit {
   headerTitle = 'Edit Event Page';
   headerColor = 'accent';
-  headerIcon = 'edit';
+  headerIcon = 'edit_calendar';
 
   // Properties for tracking event status
   eventIsFull: boolean = false;

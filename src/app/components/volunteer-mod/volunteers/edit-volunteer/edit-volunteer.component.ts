@@ -19,7 +19,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class EditVolunteerComponent implements OnInit {
   headerTitle = 'Edit Volunteers Page';
   headerColor = 'accent';
-  headerIcon = 'person';
+  headerIcon = 'edit';
 
   volunteerEditForm: FormGroup;
   volunteer: Observable<Volunteer>;
