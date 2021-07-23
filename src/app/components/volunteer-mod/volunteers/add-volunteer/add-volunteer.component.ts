@@ -44,6 +44,7 @@ export class AddVolunteerComponent implements OnInit {
       city: ['', Validators.required],
       state: ['', Validators.required],
       zipcode: ['', Validators.required],
+      dateUnAvailable: [[]],
       isAdmin: [false, Validators.required],
       isAvailable: [false, Validators.required],
       isCantor: [false, Validators.required],
