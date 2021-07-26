@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Volunteer } from '../../../../models/Volunteer';
-import { VolunteersService } from '../../../../services/volunteers.service';
+import { Volunteer } from 'src/app/models/Volunteer';
+import { VolunteersService } from 'src/app/services/volunteers.service';
+
+import { STATES } from 'src/app/data/state-data';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -25,6 +27,8 @@ export class AddVolunteerComponent implements OnInit {
   volunteerForm: FormGroup;
 
   allFamilyIDs$: Observable<FamilyID[]>;
+
+  states = STATES;
 
   constructor(
     private volunteersService: VolunteersService,
