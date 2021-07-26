@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Models
-import { Event } from '../../../../models/Event';
-import { Volunteer } from '../../../../models/Volunteer';
+import { Event } from 'src/app/models/Event';
+import { Volunteer } from 'src/app/models/Volunteer';
 
-import { EVENT_TYPES } from 'src/app/data/event-type';
+import { EVENT_TYPES } from 'src/app/data/event-type-data';
+import { VOLUNTEER_TYPES } from 'src/app/data/volunteer-type-data';
 
 // Services
 import { EventsService } from 'src/app/services/events.service';
@@ -90,6 +91,7 @@ export class AddEventComponent implements OnInit {
   eventDateToAdd: number;
 
   eventTypes = EVENT_TYPES;
+  volunteerTypes = VOLUNTEER_TYPES;
 
   constructor(
     private eventsService: EventsService,
@@ -801,105 +803,111 @@ export class AddEventComponent implements OnInit {
       eventTypeMultiplier = 4;
     }
 
-    if (this.f.cantor.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    this.volunteerTypes.forEach((el) => {
+      if (this.f[el.value].value !== '') {
+        this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+      }
+    });
 
-    if (this.f.lector1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.cantor.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.lector2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.lector1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.lector2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC4.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC3.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC5.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC4.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC6.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC5.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.eMoHC7.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC6.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.gifts.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.eMoHC7.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.giftsChild.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.gifts.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.rosary1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.giftsChild.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.rosary2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.rosary1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.usher1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.rosary2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.usher2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.usher1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.usher3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.usher2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.usher4.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.usher3.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.usher5.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.usher4.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.massCord.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.usher5.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.server1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.massCord.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.server2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.server1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.server3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.server2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.tech1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.server3.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
-    if (this.f.tech2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    // if (this.f.tech1.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
+
+    // if (this.f.tech2.value !== '') {
+    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+    // }
 
     if (this.prBarCounter >= 100) {
       this.prBarCounter = 100;

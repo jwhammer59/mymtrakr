@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 // Models
 import { Event } from 'src/app/models/Event';
 import { Volunteer } from 'src/app/models/Volunteer';
-import { EVENT_TYPES } from 'src/app/data/event-type';
+import { EVENT_TYPES } from 'src/app/data/event-type-data';
 
 // Services
 import { EventsService } from 'src/app/services/events.service';

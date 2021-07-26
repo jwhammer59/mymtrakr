@@ -56,7 +56,6 @@ export class ScheduleComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.eventsService.getEvent(this.id).subscribe((event) => {
       this.event = event;
-      console.log(this.event);
     });
   }
 }
