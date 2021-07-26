@@ -142,6 +142,20 @@
                   ><mat-icon>no_accounts</mat-icon></span
                 >
               </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Tech 1:</span>
+                {{ event.tech1 }}
+                <span *ngIf="!event.tech1"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
+              <div fxLayout fxLayoutAlign="start center">
+                <span class="ministry-title">Tech 2:</span>
+                {{ event.tech2 }}
+                <span *ngIf="!event.tech2"
+                  ><mat-icon>no_accounts</mat-icon></span
+                >
+              </div>
             </div>
           </mat-expansion-panel>
 

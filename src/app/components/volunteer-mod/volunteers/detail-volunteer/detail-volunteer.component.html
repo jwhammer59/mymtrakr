@@ -23,10 +23,13 @@
                 {{ volunteer.address1 }}
                 <span *ngIf="!volunteer.address1"> N/A </span>
               </div>
-              <div fxLayout fxLayoutAlign="start center">
+              <div
+                *ngIf="volunteer.address2"
+                fxLayout
+                fxLayoutAlign="start center"
+              >
                 <span class="address-title">Address 2:</span>
                 {{ volunteer.address2 }}
-                <span *ngIf="!volunteer.address2"> N/A </span>
               </div>
               <div fxLayout fxLayoutAlign="start center">
                 <span class="address-title">City:</span>
@@ -205,17 +208,21 @@
           </mat-expansion-panel>
         </mat-accordion>
         <!-- Volunteer Admin or Available -->
-        <div class="admin-avail">
-          <p>
-            <span>Is Available: </span>
-            <mat-checkbox [disabled]="true" [checked]="volunteer.isAvailable">
-            </mat-checkbox>
-          </p>
-          <p>
-            <span>Is Administrator: </span>
-            <mat-checkbox [disabled]="true" [checked]="volunteer.isAdmin">
-            </mat-checkbox>
-          </p>
+        <div class="admin-avail" fxLayout fxLayoutAlign="space-evenly">
+          <div>
+            <p>
+              <span>Is Available: </span>
+              <mat-checkbox [disabled]="true" [checked]="volunteer.isAvailable">
+              </mat-checkbox>
+            </p>
+          </div>
+          <div>
+            <p>
+              <span>Is Administrator: </span>
+              <mat-checkbox [disabled]="true" [checked]="volunteer.isAdmin">
+              </mat-checkbox>
+            </p>
+          </div>
         </div>
       </mat-card-content>
       <mat-card-actions align="center">
