@@ -20,18 +20,6 @@ export class VolunteersService {
   volunteers: Observable<Volunteer[]>;
   volunteer: Observable<Volunteer>;
 
-  // cantors: Observable<any>;
-  // lectors: Observable<any>;
-  // ushers: Observable<any>;
-  // servers: Observable<any>;
-  // emohcs: Observable<any>;
-  // techs: Observable<any>;
-  // rosarys: Observable<any>;
-  // others: Observable<any>;
-  // gifts: Observable<any>;
-  // giftschildren: Observable<any>;
-  // masscoords: Observable<any>;
-
   constructor(private afs: AngularFirestore) {
     this.volunteerCollection = afs.collection<Volunteer>('mpt_volunteer');
   }

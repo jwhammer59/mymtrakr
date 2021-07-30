@@ -1,1 +1,80 @@
-<app-header [title]="headerTitle" [color]="headerColor"></app-header>
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
+<div class="container" fxLayout fxLayoutAlign="center center">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Church Info">
+      <div *ngIf="settings?.length > 0; else noData">
+        <mat-card *ngFor="let setting of settings">
+          <mat-card-header>
+            <mat-card-title>{{ setting.churchName }}</mat-card-title>
+            <mat-card-subtitle>{{ setting.phone | phone }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <div>Address 1: {{ setting.address1 }}</div>
+              <div>Address 2: {{ setting.address2 }}</div>
+              <div>
+                <table>
+                  <tr>
+                    <td>City: {{ setting.city }}</td>
+                    <td>State: {{ setting.state }}</td>
+                    <td>Zip: {{ setting.zipcode }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-footer>
+            <div fxLayout fxLayoutAlign="space-evenly">
+              <div>
+                <h3>Contact Name: {{ setting.mainContact }}</h3>
+              </div>
+              <div>
+                <h3>Email: {{ setting.email }}</h3>
+              </div>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+      <ng-template #noData>
+        <h2>There are no settings in the database.</h2>
+      </ng-template>
+      <!-- Nav Buttons -->
+      <div fxLayout fxLayoutAlign="space-evenly">
+        <div *ngIf="settings?.length <= 0">
+          <button
+            mat-stroked-button
+            color="primary"
+            routerLink="/settings/add-setting"
+          >
+            Add Setting
+          </button>
+        </div>
+        <div *ngIf="settings?.length > 0">
+          <button
+            mat-stroked-button
+            color="accent"
+            routerLink="/settings/edit-setting"
+          >
+            Edit Setting
+          </button>
+        </div>
+        <div *ngIf="settings?.length > 0">
+          <button
+            (click)="onDeleteClicked()"
+            mat-stroked-button
+            matRipple
+            color="warn"
+          >
+            <mat-icon>delete_outline</mat-icon>
+            Delete Setting
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Other">Content 2</mat-tab>
+  </mat-tab-group>
+</div>

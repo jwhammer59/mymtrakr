@@ -58,6 +58,10 @@
           <mat-icon>family_restroom</mat-icon>
           Family ID's
         </button>
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          Misc Settings
+        </button>
       </mat-menu>
       <a *ngIf="isLoggedIn" mat-list-item>{{ loggedInUser }}</a>
       <a *ngIf="isLoggedIn" mat-list-item (click)="onLogoutClick()">

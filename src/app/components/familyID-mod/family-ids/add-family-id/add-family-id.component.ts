@@ -8,8 +8,6 @@ import { FamilyIdService } from 'src/app/services/familyID.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 
-import { map } from 'rxjs/operators';
-
 @Component({
   selector: 'app-add-family-id',
   templateUrl: './add-family-id.component.html',
@@ -18,6 +16,7 @@ import { map } from 'rxjs/operators';
 export class AddFamilyIDComponent implements OnInit {
   headerTitle = 'Add Family ID Page';
   headerColor = 'accent';
+  headerIcon = 'family_restroom';
 
   @ViewChild(MatSnackBar, { static: false }) snackbar: MatSnackBar;
 

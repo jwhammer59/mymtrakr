@@ -1,4 +1,8 @@
-<app-header [title]="headerTitle" [color]="headerColor"></app-header>
+<app-header
+  [title]="headerTitle"
+  [color]="headerColor"
+  [icon]="headerIcon"
+></app-header>
 <div fxLayout fxLayoutAlign="center center">
   <mat-card>
     <form
@@ -24,9 +28,7 @@
                     formControlName="householdFullName"
                     required
                   />
-                  <mat-error>
-                    Please enter a Head of Household
-                  </mat-error>
+                  <mat-error> Please enter a Head of Household </mat-error>
                 </mat-form-field>
               </td>
               <td>
@@ -44,9 +46,7 @@
             </tr>
           </table>
           <div fxLayout fxLayoutAlign="center center">
-            <mat-checkbox formControlName="isActive">
-              Is Active
-            </mat-checkbox>
+            <mat-checkbox formControlName="isActive"> Is Active </mat-checkbox>
           </div>
         </div>
       </div>
