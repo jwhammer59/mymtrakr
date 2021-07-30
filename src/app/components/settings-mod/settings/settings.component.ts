@@ -1,4 +1,3 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -35,9 +34,7 @@ export class SettingsComponent implements OnInit {
   onEditSetting() {
     this.settings.filter((res) => {
       this.docID = res.id;
-      console.log(this.docID);
     });
     this.router.navigate([`/settings/edit-setting/${this.docID}`]);
-    console.log('Lets go!');
   }
 }

@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Setting } from 'src/app/models/Setting';
 import { SettingsService } from 'src/app/services/settings.service';
+
+import { DataService } from 'src/app/services/data.service';
+import { Subscription } from 'rxjs';
 
 import { STATES } from 'src/app/data/state-data';
 
@@ -14,10 +17,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './add-setting.component.html',
   styleUrls: ['./add-setting.component.scss'],
 })
-export class AddSettingComponent implements OnInit {
+export class AddSettingComponent implements OnInit, OnDestroy {
   headerTitle = 'Add Settings';
   headerColor = 'accent';
   headerIcon = 'settings';
+
+  message: string;
+  subscription: Subscription;
 
   @ViewChild(MatSnackBar, { static: false }) snackbar: MatSnackBar;
 
@@ -26,6 +32,7 @@ export class AddSettingComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
+    private data: DataService,
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
@@ -43,7 +50,11 @@ export class AddSettingComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription = this.data.currentMessage.subscribe(
+      (message) => (this.message = message)
+    );
+  }
 
   onSubmit({ value, valid }: { value: Setting; valid: boolean }) {
     console.log('Settings Submitted!');
@@ -54,8 +65,9 @@ export class AddSettingComponent implements OnInit {
       console.log(value, valid);
     } else {
       this.settingsService.addSetting(value);
+      this.newMessage(value.churchName);
       this.autoDismissSnackBar('Setting Added!', '');
-      this.router.navigate(['/setting']);
+      this.router.navigate(['/settings']);
     }
   }
 
@@ -64,5 +76,13 @@ export class AddSettingComponent implements OnInit {
       duration: 3000,
       verticalPosition: 'top',
     });
+  }
+
+  newMessage(name: string) {
+    this.data.changeMessage(name);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

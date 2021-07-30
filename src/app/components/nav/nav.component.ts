@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, fromEventPattern } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
+
+import { DataService } from 'src/app/services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -13,10 +16,12 @@ import { LoadingService } from 'src/app/services/loading.service';
   styleUrls: ['./nav.component.scss'],
   providers: [LoadingService],
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   loggedInUser: string;
-  churchName: string = 'All Saints Parish';
+  // churchName: string = 'All Saints Parish';
+  message: string;
+  subscription: Subscription;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -28,6 +33,7 @@ export class NavComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
+    private data: DataService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -41,6 +47,9 @@ export class NavComponent implements OnInit {
         this.isLoggedIn = false;
       }
     });
+    this.subscription = this.data.currentMessage.subscribe(
+      (message) => (this.message = message)
+    );
   }
 
   onLogoutClick() {
@@ -55,5 +64,9 @@ export class NavComponent implements OnInit {
       duration: 2000,
       verticalPosition: 'top',
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
