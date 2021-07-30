@@ -1,4 +1,6 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Setting } from 'src/app/models/Setting';
@@ -15,11 +17,13 @@ export class SettingsComponent implements OnInit {
   headerIcon = 'settings';
 
   settings: Setting[];
+  docID: string;
 
   constructor(
     private settingsService: SettingsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +32,12 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  onDeleteClicked() {
-    console.log(this.settings);
+  onEditSetting() {
+    this.settings.filter((res) => {
+      this.docID = res.id;
+      console.log(this.docID);
+    });
+    this.router.navigate([`/settings/edit-setting/${this.docID}`]);
+    console.log('Lets go!');
   }
 }

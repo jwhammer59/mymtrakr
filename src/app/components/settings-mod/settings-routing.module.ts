@@ -7,7 +7,7 @@ import { SettingsComponent } from './settings/settings.component';
 const routes: Routes = [
   { path: '', component: SettingsComponent },
   { path: 'add-setting', component: AddSettingComponent },
-  { path: 'edit-setting', component: EditSettingComponent },
+  { path: 'edit-setting/:id', component: EditSettingComponent },
 ];
 
 @NgModule({

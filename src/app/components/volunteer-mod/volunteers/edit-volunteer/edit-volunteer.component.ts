@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Volunteer } from '../../../../models/Volunteer';
-import { VolunteersService } from '../../../../services/volunteers.service';
+import { Volunteer } from 'src/app/models/Volunteer';
+import { VolunteersService } from 'src/app/services/volunteers.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FamilyID } from 'src/app/models/FamilyID';
 import { FamilyIdService } from 'src/app/services/familyID.service';

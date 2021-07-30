@@ -54,23 +54,8 @@
           </button>
         </div>
         <div *ngIf="settings?.length > 0">
-          <button
-            mat-stroked-button
-            color="accent"
-            routerLink="/settings/edit-setting"
-          >
+          <button mat-stroked-button color="accent" (click)="onEditSetting()">
             Edit Setting
-          </button>
-        </div>
-        <div *ngIf="settings?.length > 0">
-          <button
-            (click)="onDeleteClicked()"
-            mat-stroked-button
-            matRipple
-            color="warn"
-          >
-            <mat-icon>delete_outline</mat-icon>
-            Delete Setting
           </button>
         </div>
       </div>

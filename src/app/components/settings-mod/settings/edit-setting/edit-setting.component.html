@@ -1,1 +1,167 @@
-<p>edit-setting works!</p>
+<app-header [title]="headerTitle" [color]="headerColor" [icon]="headerIcon">
+</app-header>
+<div fxLayout fxLayoutAlign="center center">
+  <mat-card>
+    <form
+      *ngIf="setting | async; else loading"
+      [formGroup]="settingEditForm"
+      (ngSubmit)="onSubmit(settingEditForm)"
+      novalidate
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Church Name"
+                    formControlName="churchName"
+                    required
+                  />
+                  <mat-error>Please enter your church name.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Church Contact Name"
+                    formControlName="mainContact"
+                    required
+                  />
+                  <mat-error>Please enter a contact name.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="layout">
+          <mat-form-field fxFlexFill appearance="outline">
+            <input
+              matInput
+              placeholder="Address"
+              formControlName="address1"
+              required
+            />
+            <mat-error>Please enter a street address.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="layout">
+          <mat-form-field fxFlexFill appearance="outline">
+            <input
+              matInput
+              placeholder="PO Box, Suite ..."
+              formControlName="address2"
+            />
+          </mat-form-field>
+        </div>
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="City"
+                    formControlName="city"
+                    required
+                  />
+                  <mat-error>Please enter a city.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <mat-select
+                    formControlName="state"
+                    required
+                    placeholder="State"
+                  >
+                    <mat-option>--</mat-option>
+                    <mat-option
+                      *ngFor="let state of states"
+                      [value]="state.value"
+                    >
+                      {{ state.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>State required.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    #zip
+                    matInput
+                    placeholder="Zip"
+                    formControlName="zipcode"
+                    maxLength="5"
+                    required
+                  />
+                  <mat-hint align="end">{{ zip.value.length }} / 5</mat-hint>
+                  <mat-error>Please enter a valid zip code.</mat-error>
+                  <mat-error>Zip code must be 5 digits.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="layout">
+          <table>
+            <tr fxLayout.lt-md="column">
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="email"
+                    required
+                  />
+                  <mat-error>Please enter a valid email address.</mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field fxFlexFill appearance="outline">
+                  <input
+                    #phone
+                    matInput
+                    placeholder="Phone"
+                    formControlName="phone"
+                    maxLength="10"
+                    required
+                  />
+                  <mat-hint align="end">{{ phone.value.length }} / 10</mat-hint>
+                  <mat-error>Please enter a phone number.</mat-error>
+                  <mat-error>Phone number must be 10 digits.</mat-error>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <mat-divider [inset]="true"></mat-divider>
+        </div>
+      </div>
+
+      <div
+        class="confirm"
+        fxLayout
+        fxLayout.lt-md="column"
+        fxLayoutAlign="space-evenly"
+      >
+        <button mat-stroked-button color="primary" routerLink="/settings">
+          <mat-icon>arrow_back</mat-icon>
+          All Settings
+        </button>
+        <button mat-stroked-button color="primary" type="submit" value="Submit">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <button mat-stroked-button color="warn" routerLink="/settings">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+  <ng-template #loading>Loading volunteer...</ng-template>
+</div>
