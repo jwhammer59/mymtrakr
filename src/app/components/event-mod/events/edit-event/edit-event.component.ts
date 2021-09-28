@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 // Models
 import { Event } from 'src/app/models/Event';
 import { Volunteer } from 'src/app/models/Volunteer';
+
+// Static Data
 import { EVENT_TYPES } from 'src/app/data/event-type-data';
 
 // Services
@@ -260,8 +262,8 @@ export class EditEventComponent implements OnInit {
     this.loadingService.loadingOn();
     setTimeout(() => {
       this.eventIsLoaded = true;
-      this.currentEventType = this.eventEditForm.controls.type.value;
-      this.tempEditDate = this.eventEditForm.controls.date.value;
+      this.currentEventType = this.f.type.value;
+      this.tempEditDate = this.f.date.value;
       this.calcDate(this.tempEditDate);
       this.updateUI(this.currentEventType);
       this.onEventTypeChanged();
