@@ -9,6 +9,7 @@ import { Volunteer } from 'src/app/models/Volunteer';
 
 // Static Data
 import { EVENT_TYPES } from 'src/app/data/event-type-data';
+import { VOLUNTEER_TYPES } from 'src/app/data/volunteer-type-data';
 
 // Services
 import { EventsService } from 'src/app/services/events.service';
@@ -94,6 +95,7 @@ export class EditEventComponent implements OnInit {
   eventEditForm: FormGroup;
   eventDateToAdd: number;
   eventTypes = EVENT_TYPES;
+  volunteerTypes = VOLUNTEER_TYPES;
   id: string;
 
   constructor(
@@ -261,12 +263,10 @@ export class EditEventComponent implements OnInit {
     this.loadingService.loadingOn();
     setTimeout(() => {
       this.currentEventType = this.f.type.value;
-      // this.tempEditDate = this.f.date.value;
       let tempDate = new Date(this.f.date.value);
       this.f.date.patchValue(tempDate);
       this.updateUI(this.currentEventType);
       this.setEventDate(this.f.date.value);
-      // this.calcDate(this.tempEditDate);
 
       this.loadingService.loadingOff();
     }, 2000);
@@ -277,10 +277,6 @@ export class EditEventComponent implements OnInit {
     this.eventDate = Math.floor(e);
     this.getDateAvailableVolunteers(this.currentEventType, this.eventDate);
   }
-
-  // calcDate(val) {
-  //   this.tempCalcDate = val;
-  // }
 
   dayAllowedFilter = (d: Date): boolean => {
     const day = d.getDay();
@@ -322,8 +318,6 @@ export class EditEventComponent implements OnInit {
     } else {
       dayToCheck = 'isWeekday';
     }
-
-    console.log(dayToCheck);
 
     this.cantorsByDate$ = this.onlyCantors$.pipe(
       map((volunteers) =>
@@ -495,38 +489,27 @@ export class EditEventComponent implements OnInit {
   }
 
   enableFormInputs() {
-    this.f.date.enable();
-    this.f.cantor.enable();
-    this.f.lector1.enable();
-    this.f.lector2.enable();
-    this.f.eMoHC1.enable();
-    this.f.eMoHC2.enable();
-    this.f.eMoHC3.enable();
-    this.f.eMoHC4.enable();
-    this.f.eMoHC5.enable();
-    this.f.eMoHC6.enable();
-    this.f.eMoHC7.enable();
-    this.f.gifts.enable();
-    this.f.giftsChild.enable();
-    this.f.rosary1.enable();
-    this.f.rosary2.enable();
-    this.f.other.enable();
-    this.f.usher1.enable();
-    this.f.usher2.enable();
-    this.f.usher3.enable();
-    this.f.usher4.enable();
-    this.f.usher5.enable();
-    this.f.massCord.enable();
-    this.f.server1.enable();
-    this.f.server2.enable();
-    this.f.server3.enable();
-    this.f.tech1.enable();
-    this.f.tech2.enable();
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].enable();
+    });
   }
 
   onUpdateEventType(e) {
     this.currentEventType = e.value;
     this.onEventTypeChanged();
+  }
+
+  // Disable all inputs until Event Type is selected
+  disableFormInputs() {
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].disable();
+    });
+  }
+
+  setValueFormInputs() {
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].setValue('');
+    });
   }
 
   /* When event type is changed, disable and
@@ -535,94 +518,31 @@ export class EditEventComponent implements OnInit {
   */
   onEventTypeChanged() {
     this.f.date.setValue('');
-    this.enableFormInputs();
+    this.disableFormInputs();
+    this.setValueFormInputs();
     if (this.currentEventType === 'Weekday') {
-      // Disable non used volunteers & set value to ''
-      this.f.cantor.disable();
-      this.f.cantor.setValue('');
-      this.f.lector2.disable();
-      this.f.lector2.setValue('');
-      this.f.eMoHC2.disable();
-      this.f.eMoHC2.setValue('');
-      this.f.eMoHC3.disable();
-      this.f.eMoHC3.setValue('');
-      this.f.eMoHC4.disable();
-      this.f.eMoHC4.setValue('');
-      this.f.eMoHC5.disable();
-      this.f.eMoHC5.setValue('');
-      this.f.eMoHC6.disable();
-      this.f.eMoHC6.setValue('');
-      this.f.eMoHC7.disable();
-      this.f.eMoHC7.setValue('');
-      this.f.gifts.disable();
-      this.f.gifts.setValue('');
-      this.f.giftsChild.disable();
-      this.f.giftsChild.setValue('');
-      this.f.rosary1.disable();
-      this.f.rosary1.setValue('');
-      this.f.rosary2.disable();
-      this.f.rosary2.setValue('');
-      this.f.other.disable();
-      this.f.other.setValue('');
-      this.f.usher1.disable();
-      this.f.usher1.setValue('');
-      this.f.usher2.disable();
-      this.f.usher2.setValue('');
-      this.f.usher3.disable();
-      this.f.usher3.setValue('');
-      this.f.usher4.disable();
-      this.f.usher4.setValue('');
-      this.f.usher5.disable();
-      this.f.usher5.setValue('');
-      this.f.massCord.disable();
-      this.f.massCord.setValue('');
-      this.f.server2.disable();
-      this.f.server2.setValue('');
-      this.f.server3.disable();
-      this.f.server3.setValue('');
-      this.f.tech1.disable();
-      this.f.tech1.setValue('');
-      this.f.tech2.disable();
-      this.f.tech2.setValue('');
+      // Enable required fields
+      this.f.lector1.enable();
+      this.f.eMoHC1.enable();
+      this.f.server1.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else if (this.currentEventType === 'Sunday-Early') {
-      // Disable non used volunteers & set value to ''
-      this.f.eMoHC3.disable();
-      this.f.eMoHC3.setValue('');
-      this.f.eMoHC4.disable();
-      this.f.eMoHC4.setValue('');
-      this.f.eMoHC5.disable();
-      this.f.eMoHC5.setValue('');
-      this.f.eMoHC6.disable();
-      this.f.eMoHC6.setValue('');
-      this.f.eMoHC7.disable();
-      this.f.eMoHC7.setValue('');
-      this.f.gifts.disable();
-      this.f.gifts.setValue('');
-      this.f.giftsChild.disable();
-      this.f.giftsChild.setValue('');
-      this.f.rosary1.disable();
-      this.f.rosary1.setValue('');
-      this.f.rosary2.disable();
-      this.f.rosary2.setValue('');
-      this.f.other.disable();
-      this.f.other.setValue('');
-      this.f.usher3.disable();
-      this.f.usher3.setValue('');
-      this.f.usher4.disable();
-      this.f.usher4.setValue('');
-      this.f.usher5.disable();
-      this.f.usher5.setValue('');
-      this.f.massCord.disable();
-      this.f.massCord.setValue('');
-      this.f.server3.disable();
-      this.f.server3.setValue('');
-      this.f.tech1.disable();
-      this.f.tech1.setValue('');
-      this.f.tech2.disable();
-      this.f.tech2.setValue('');
+      // Enable required fields
+      this.f.cantor.enable();
+      this.f.lector1.enable();
+      this.f.lector2.enable();
+      this.f.eMoHC1.enable();
+      this.f.eMoHC2.enable();
+      this.f.usher1.enable();
+      this.f.usher2.enable();
+      this.f.server1.enable();
+      this.f.server2.enable();
+      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else {
+      // Enable required fields
+      this.enableFormInputs();
+      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     }
   }
@@ -755,105 +675,11 @@ export class EditEventComponent implements OnInit {
       eventTypeMultiplier = 4;
     }
 
-    if (this.f.cantor.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.lector1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.lector2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC4.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC5.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC6.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.eMoHC7.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.gifts.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.giftsChild.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.rosary1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.rosary2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.usher1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.usher2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.usher3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.usher4.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.usher5.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.massCord.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.server1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.server2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.server3.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.tech1.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
-
-    if (this.f.tech2.value !== '') {
-      this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    }
+    this.volunteerTypes.forEach((el) => {
+      if (this.f[el.value].value !== '') {
+        this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
+      }
+    });
 
     if (this.prBarCounter >= 100) {
       this.prBarCounter = 100;

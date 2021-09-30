@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from 'src/app/models/Event';
 import { Volunteer } from 'src/app/models/Volunteer';
 
+// Static Data
 import { EVENT_TYPES } from 'src/app/data/event-type-data';
 import { VOLUNTEER_TYPES } from 'src/app/data/volunteer-type-data';
 
@@ -478,62 +479,25 @@ export class AddEventComponent implements OnInit {
 
   // Disable all inputs until Event Type is selected
   disableFormInputs() {
-    this.f.cantor.disable();
-    this.f.lector1.disable();
-    this.f.lector2.disable();
-    this.f.eMoHC1.disable();
-    this.f.eMoHC2.disable();
-    this.f.eMoHC3.disable();
-    this.f.eMoHC4.disable();
-    this.f.eMoHC5.disable();
-    this.f.eMoHC6.disable();
-    this.f.eMoHC7.disable();
-    this.f.gifts.disable();
-    this.f.giftsChild.disable();
-    this.f.rosary1.disable();
-    this.f.rosary2.disable();
-    this.f.other.disable();
-    this.f.usher1.disable();
-    this.f.usher2.disable();
-    this.f.usher3.disable();
-    this.f.usher4.disable();
-    this.f.usher5.disable();
-    this.f.massCord.disable();
-    this.f.server1.disable();
-    this.f.server2.disable();
-    this.f.server3.disable();
-    this.f.tech1.disable();
-    this.f.tech2.disable();
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].disable();
+    });
   }
 
+  /*
+  Enable all inputs prior to setting only
+  the inputs required based on the Event Type
+  */
   enableFormInputs() {
-    this.f.date.enable();
-    this.f.cantor.enable();
-    this.f.lector1.enable();
-    this.f.lector2.enable();
-    this.f.eMoHC1.enable();
-    this.f.eMoHC2.enable();
-    this.f.eMoHC3.enable();
-    this.f.eMoHC4.enable();
-    this.f.eMoHC5.enable();
-    this.f.eMoHC6.enable();
-    this.f.eMoHC7.enable();
-    this.f.gifts.enable();
-    this.f.giftsChild.enable();
-    this.f.rosary1.enable();
-    this.f.rosary2.enable();
-    this.f.other.enable();
-    this.f.usher1.enable();
-    this.f.usher2.enable();
-    this.f.usher3.enable();
-    this.f.usher4.enable();
-    this.f.usher5.enable();
-    this.f.massCord.enable();
-    this.f.server1.enable();
-    this.f.server2.enable();
-    this.f.server3.enable();
-    this.f.tech1.enable();
-    this.f.tech2.enable();
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].enable();
+    });
+  }
+
+  setValueFormInputs() {
+    this.volunteerTypes.forEach((el) => {
+      this.f[el.value].setValue('');
+    });
   }
 
   /* When event type is changed, disable and
@@ -542,135 +506,32 @@ export class AddEventComponent implements OnInit {
   */
   onEventTypeChanged(e) {
     this.f.date.setValue('');
-    this.enableFormInputs();
+    this.disableFormInputs();
+    this.setValueFormInputs();
     this.currentEventType = e.value;
     if (this.currentEventType === 'Weekday') {
-      // Disable non used volunteers & set value to ''
-      this.f.cantor.disable();
-      this.f.cantor.setValue('');
-      this.f.lector2.disable();
-      this.f.lector2.setValue('');
-      this.f.eMoHC2.disable();
-      this.f.eMoHC2.setValue('');
-      this.f.eMoHC3.disable();
-      this.f.eMoHC3.setValue('');
-      this.f.eMoHC4.disable();
-      this.f.eMoHC4.setValue('');
-      this.f.eMoHC5.disable();
-      this.f.eMoHC5.setValue('');
-      this.f.eMoHC6.disable();
-      this.f.eMoHC6.setValue('');
-      this.f.eMoHC7.disable();
-      this.f.eMoHC7.setValue('');
-      this.f.gifts.disable();
-      this.f.gifts.setValue('');
-      this.f.giftsChild.disable();
-      this.f.giftsChild.setValue('');
-      this.f.rosary1.disable();
-      this.f.rosary1.setValue('');
-      this.f.rosary2.disable();
-      this.f.rosary2.setValue('');
-      this.f.other.disable();
-      this.f.other.setValue('');
-      this.f.usher1.disable();
-      this.f.usher1.setValue('');
-      this.f.usher2.disable();
-      this.f.usher2.setValue('');
-      this.f.usher3.disable();
-      this.f.usher3.setValue('');
-      this.f.usher4.disable();
-      this.f.usher4.setValue('');
-      this.f.usher5.disable();
-      this.f.usher5.setValue('');
-      this.f.massCord.disable();
-      this.f.massCord.setValue('');
-      this.f.server2.disable();
-      this.f.server2.setValue('');
-      this.f.server3.disable();
-      this.f.server3.setValue('');
-      this.f.tech1.disable();
-      this.f.tech1.setValue('');
-      this.f.tech2.disable();
-      this.f.tech2.setValue('');
-      // Set Value of fields still used to ''
-      this.f.lector1.setValue('');
-      this.f.eMoHC1.setValue('');
-      this.f.server1.setValue('');
+      // Enable required fields
+      this.f.lector1.enable();
+      this.f.eMoHC1.enable();
+      this.f.server1.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else if (this.currentEventType === 'Sunday-Early') {
-      // Disable non used volunteers & set value to ''
-      this.f.eMoHC3.disable();
-      this.f.eMoHC3.setValue('');
-      this.f.eMoHC4.disable();
-      this.f.eMoHC4.setValue('');
-      this.f.eMoHC5.disable();
-      this.f.eMoHC5.setValue('');
-      this.f.eMoHC6.disable();
-      this.f.eMoHC6.setValue('');
-      this.f.eMoHC7.disable();
-      this.f.eMoHC7.setValue('');
-      this.f.gifts.disable();
-      this.f.gifts.setValue('');
-      this.f.giftsChild.disable();
-      this.f.giftsChild.setValue('');
-      this.f.rosary1.disable();
-      this.f.rosary1.setValue('');
-      this.f.rosary2.disable();
-      this.f.rosary2.setValue('');
-      this.f.other.disable();
-      this.f.other.setValue('');
-      this.f.usher3.disable();
-      this.f.usher3.setValue('');
-      this.f.usher4.disable();
-      this.f.usher4.setValue('');
-      this.f.usher5.disable();
-      this.f.usher5.setValue('');
-      this.f.massCord.disable();
-      this.f.massCord.setValue('');
-      this.f.server3.disable();
-      this.f.server3.setValue('');
-      this.f.tech1.disable();
-      this.f.tech1.setValue('');
-      this.f.tech2.disable();
-      this.f.tech2.setValue('');
-      // Set Value of fields still used to ''
-      this.f.cantor.setValue('');
-      this.f.lector1.setValue('');
-      this.f.lector2.setValue('');
-      this.f.eMoHC1.setValue('');
-      this.f.eMoHC2.setValue('');
-      this.f.usher1.setValue('');
-      this.f.usher2.setValue('');
-      this.f.server1.setValue('');
-      this.f.server2.setValue('');
+      // Enable required fields
+      this.f.cantor.enable();
+      this.f.lector1.enable();
+      this.f.lector2.enable();
+      this.f.eMoHC1.enable();
+      this.f.eMoHC2.enable();
+      this.f.usher1.enable();
+      this.f.usher2.enable();
+      this.f.server1.enable();
+      this.f.server2.enable();
+      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else {
-      this.f.cantor.setValue('');
-      this.f.lector1.setValue('');
-      this.f.lector2.setValue('');
-      this.f.eMoHC1.setValue('');
-      this.f.eMoHC2.setValue('');
-      this.f.eMoHC3.setValue('');
-      this.f.eMoHC4.setValue('');
-      this.f.eMoHC5.setValue('');
-      this.f.eMoHC6.setValue('');
-      this.f.eMoHC7.setValue('');
-      this.f.gifts.setValue('');
-      this.f.giftsChild.setValue('');
-      this.f.rosary1.setValue('');
-      this.f.rosary2.setValue('');
-      this.f.other.setValue('');
-      this.f.usher1.setValue('');
-      this.f.usher2.setValue('');
-      this.f.usher3.setValue('');
-      this.f.usher4.setValue('');
-      this.f.usher5.setValue('');
-      this.f.massCord.setValue('');
-      this.f.server1.setValue('');
-      this.f.server2.setValue('');
-      this.f.server3.setValue('');
-      this.f.tech1.setValue('');
-      this.f.tech2.setValue('');
+      // Enable required fields
+      this.enableFormInputs();
+      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     }
   }
@@ -686,8 +547,8 @@ export class AddEventComponent implements OnInit {
 
   checkForDuplicates() {
     this.resetDuplicates();
-    //  If Incomplete Event Approval is checked
-    //  Do not check for duplicates.
+    /*  If Incomplete Event Approval is checked
+        do not check for duplicates. */
     if (!this.incompleteEventApproval) {
       if (this.currentEventType === 'Weekday') {
         return;
@@ -808,106 +669,6 @@ export class AddEventComponent implements OnInit {
         this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
       }
     });
-
-    // if (this.f.cantor.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.lector1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.lector2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC3.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC4.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC5.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC6.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.eMoHC7.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.gifts.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.giftsChild.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.rosary1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.rosary2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.usher1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.usher2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.usher3.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.usher4.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.usher5.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.massCord.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.server1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.server2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.server3.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.tech1.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
-
-    // if (this.f.tech2.value !== '') {
-    //   this.prBarCounter = this.prBarCounter + eventTypeMultiplier;
-    // }
 
     if (this.prBarCounter >= 100) {
       this.prBarCounter = 100;

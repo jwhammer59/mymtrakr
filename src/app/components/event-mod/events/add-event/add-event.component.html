@@ -17,9 +17,14 @@
       <mat-progress-bar mode="determinate" [value]="prBarCounter">
       </mat-progress-bar>
     </div>
-    <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-      <div fxFlex="33%" fxFlex.lt-md="100%">
-        <mat-form-field appearance="outline">
+    <div
+      fxLayout
+      fxLayout.lt-md="column"
+      fxLayoutAlign="space-evenly"
+      fxLayoutGap="20px"
+    >
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+        <mat-form-field>
           <mat-label color="accent">Event Type</mat-label>
           <mat-select
             formControlName="type"
@@ -33,7 +38,7 @@
           <mat-hint>Choose event type.</mat-hint>
         </mat-form-field>
       </div>
-      <div fxFlex="33%" fxFlex.lt-md="100%">
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
         <mat-form-field>
           <input
             (dateChange)="setEventDate($event)"
@@ -50,10 +55,20 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
-      <div fxFlex="33%" fxFlex.lt-md="100%">
-        <mat-checkbox [checked]="eventIsFull" formControlName="isFull" disabled
-          >Event Is Full</mat-checkbox
-        >
+      <div
+        fxLayout
+        fxLayoutAlign="center center"
+        fxFlex="1 1 auto"
+        fxFlex.lt-md="100%"
+      >
+        <div>
+          <mat-checkbox
+            [checked]="eventIsFull"
+            formControlName="isFull"
+            disabled
+            >Event Is Full</mat-checkbox
+          >
+        </div>
       </div>
     </div>
 
@@ -63,8 +78,13 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Cantor, Lectors & Servers </mat-panel-title>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Cantor</mat-label>
               <mat-select
@@ -89,7 +109,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Lector 1</mat-label>
               <mat-select
@@ -116,7 +136,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Lector 2</mat-label>
               <mat-select
@@ -143,8 +163,13 @@
           </div>
         </div>
 
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Server 1</mat-label>
               <mat-select
@@ -170,7 +195,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Server 2</mat-label>
               <mat-select
@@ -194,7 +219,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Server 3</mat-label>
               <mat-select
@@ -226,8 +251,13 @@
         <mat-expansion-panel-header>
           <mat-panel-title> EHoMC & Technology </mat-panel-title>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>EMoHC1</mat-label>
               <mat-select
@@ -253,7 +283,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>EMoHC2</mat-label>
               <mat-select
@@ -278,7 +308,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>EMoHC3</mat-label>
               <mat-select
@@ -304,8 +334,13 @@
           </div>
         </div>
 
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>EMoHC4</mat-label>
               <mat-select
@@ -329,7 +364,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>EMoHC5</mat-label>
               <mat-select
@@ -353,7 +388,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>EMoHC6</mat-label>
               <mat-select
@@ -379,8 +414,13 @@
           </div>
         </div>
 
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>EMoHC7</mat-label>
               <mat-select
@@ -404,7 +444,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Tech 1</mat-label>
               <mat-select
@@ -429,7 +469,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Tech 2</mat-label>
               <mat-select
@@ -461,8 +501,13 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Ushers & Mass Coordinator </mat-panel-title>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Usher 1</mat-label>
               <mat-select
@@ -488,7 +533,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Usher 2</mat-label>
               <mat-select
@@ -513,7 +558,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Usher 3</mat-label>
               <mat-select
@@ -539,8 +584,13 @@
           </div>
         </div>
 
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Usher 4</mat-label>
               <mat-select
@@ -564,7 +614,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Usher 5</mat-label>
               <mat-select
@@ -588,7 +638,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Mass Coordinator</mat-label>
               <mat-select
@@ -620,8 +670,13 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Rosary, Other & Gifts </mat-panel-title>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Rosary 1</mat-label>
               <mat-select
@@ -647,7 +702,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Rosary 2</mat-label>
               <mat-select
@@ -671,7 +726,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Other</mat-label>
               <mat-select
@@ -697,8 +752,13 @@
           </div>
         </div>
 
-        <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-evenly"
+          fxLayoutGap="20px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline">
               <mat-label>Gifts</mat-label>
               <mat-select
@@ -723,7 +783,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%">
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline"
               ><mat-label>Child Gifts</mat-label>
               <mat-select
@@ -747,7 +807,7 @@
               >
             </mat-form-field>
           </div>
-          <div fxFlex="33%" fxFlex.lt-md="100%"></div>
+          <!-- <div fxFlex="1 1 auto" fxFlex.lt-md="100%"></div> -->
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -755,10 +815,11 @@
     <div
       fxLayout
       fxLayout.lt-md="column"
-      fxLayoutAlign="center center"
+      fxLayoutAlign="space-evenly"
+      fxLayoutGap="20px"
       id="checkbox-group"
     >
-      <div fxFlex="33%" fxFlex.lt-md="100%">
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
         <mat-checkbox
           [(ngModel)]="incompleteEventApproval"
           [ngModelOptions]="{ standalone: true }"
@@ -766,7 +827,7 @@
           >Incomplete Event Approval</mat-checkbox
         >
       </div>
-      <div fxFlex="33%" fxFlex.lt-md="100%">
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
         <mat-checkbox
           [(ngModel)]="duplicateVolunteerApproval"
           [ngModelOptions]="{ standalone: true }"
@@ -774,7 +835,7 @@
           >Duplicate Volunteer Approval</mat-checkbox
         >
       </div>
-      <div fxFlex="33%" fxFlex.lt-md="100%">
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
         <mat-checkbox
           [(ngModel)]="checkForMatchingFamily"
           [ngModelOptions]="{ standalone: true }"
