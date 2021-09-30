@@ -58,7 +58,6 @@ export class EditEventComponent implements OnInit {
   initialEditEventType: string;
   tempEditDate: Date;
   tempCalcDate: number;
-  eventIsLoaded: boolean = false;
 
   // All Observables for future filtering by event date.
   allVolunteers$: Observable<Volunteer[]>;
@@ -111,7 +110,7 @@ export class EditEventComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.eventEditForm = this.fb.group({
       id: '',
-      date: [null, Validators.required],
+      date: ['', Validators.required],
       type: ['', Validators.required],
       isFull: [false, Validators.required],
       cantor: ['', Validators.required],
@@ -251,7 +250,7 @@ export class EditEventComponent implements OnInit {
         )
       )
     );
-    this.updateAfterLoad();
+    this.event$.subscribe(() => this.updateAfterLoad());
   }
 
   get f() {
@@ -261,25 +260,27 @@ export class EditEventComponent implements OnInit {
   updateAfterLoad() {
     this.loadingService.loadingOn();
     setTimeout(() => {
-      this.eventIsLoaded = true;
       this.currentEventType = this.f.type.value;
-      this.tempEditDate = this.f.date.value;
-      this.calcDate(this.tempEditDate);
+      // this.tempEditDate = this.f.date.value;
+      let tempDate = new Date(this.f.date.value);
+      this.f.date.patchValue(tempDate);
       this.updateUI(this.currentEventType);
-      this.onEventTypeChanged();
+      this.setEventDate(this.f.date.value);
+      // this.calcDate(this.tempEditDate);
+
       this.loadingService.loadingOff();
     }, 2000);
+    this.onEventTypeChanged();
   }
 
   setEventDate(e: any) {
-    this.eventDate = Math.floor(e.target.value);
-
+    this.eventDate = Math.floor(e);
     this.getDateAvailableVolunteers(this.currentEventType, this.eventDate);
   }
 
-  calcDate(val) {
-    this.tempCalcDate = val;
-  }
+  // calcDate(val) {
+  //   this.tempCalcDate = val;
+  // }
 
   dayAllowedFilter = (d: Date): boolean => {
     const day = d.getDay();
@@ -321,6 +322,8 @@ export class EditEventComponent implements OnInit {
     } else {
       dayToCheck = 'isWeekday';
     }
+
+    console.log(dayToCheck);
 
     this.cantorsByDate$ = this.onlyCantors$.pipe(
       map((volunteers) =>
