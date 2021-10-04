@@ -91,6 +91,11 @@ export class AddEventComponent implements OnInit {
   eventDateArray = [];
   eventDateToAdd: number;
 
+  panel1Complete: boolean = false;
+  panel2Complete: boolean = false;
+  panel3Complete: boolean = false;
+  panel4Complete: boolean = false;
+
   eventTypes = EVENT_TYPES;
   volunteerTypes = VOLUNTEER_TYPES;
 
@@ -420,9 +425,12 @@ export class AddEventComponent implements OnInit {
     );
   }
 
-  updateUI(e) {
+  updateUI(e, control) {
+    console.log(e);
     // Update staffing level after input change
     this.checkStaffingLevel(this.currentEventType);
+    this.checkPanelStatus(control);
+
     /* If "Check for Matching Family" checkbox is checked
      return matching FamilyID. */
     if (this.checkForMatchingFamily) {
@@ -505,6 +513,7 @@ export class AddEventComponent implements OnInit {
   choosen
   */
   onEventTypeChanged(e) {
+    this.resetPanels();
     this.f.date.setValue('');
     this.disableFormInputs();
     this.setValueFormInputs();
@@ -651,6 +660,77 @@ export class AddEventComponent implements OnInit {
       }
     }
     return;
+  }
+
+  resetPanels() {
+    this.panel1Complete = false;
+    this.panel2Complete = false;
+    this.panel3Complete = false;
+    this.panel4Complete = false;
+  }
+
+  checkPanelStatus(e) {
+    this.resetPanels();
+    console.log(e);
+    if (this.currentEventType === 'Weekday') {
+      this.panel3Complete === true;
+      this.panel4Complete === true;
+      if (this.f.lector1.value !== '' && this.f.server1.value !== '') {
+        this.panel1Complete = true;
+      }
+
+      if (this.f.eMoHC1.value !== '') {
+        this.panel2Complete === true;
+      }
+    } else if (
+      this.currentEventType === 'Saturday' ||
+      this.currentEventType === 'Sunday-Late'
+    ) {
+      if (
+        this.f.cantor.value !== '' &&
+        this.f.lector1.value !== '' &&
+        this.f.lector2.value !== '' &&
+        this.f.server1.value !== '' &&
+        this.f.server2.value !== '' &&
+        this.f.server3.value !== ''
+      ) {
+        this.panel1Complete === true;
+      }
+
+      if (
+        this.f.eMoHC1.value !== '' &&
+        this.f.eMoHC2.value !== '' &&
+        this.f.eMoHC3.value !== '' &&
+        this.f.eMoHC4.value !== '' &&
+        this.f.eMoHC5.value !== '' &&
+        this.f.eMoHC6.value !== '' &&
+        this.f.eMoHC7.value !== '' &&
+        this.f.tech1.value !== '' &&
+        this.f.tech2.value !== ''
+      ) {
+        this.panel2Complete === true;
+      }
+
+      if (
+        this.f.usher1.value !== '' &&
+        this.f.usher2.value !== '' &&
+        this.f.usher3.value !== '' &&
+        this.f.usher4.value !== '' &&
+        this.f.usher5.value !== '' &&
+        this.f.massCord.value !== ''
+      ) {
+        this.panel3Complete === true;
+      }
+
+      if (
+        this.f.rosary1.value !== '' &&
+        this.f.rosary1.value !== '' &&
+        this.f.gifts.value !== '' &&
+        this.f.giftsChild.value !== ''
+      ) {
+        this.panel4Complete === true;
+      }
+    }
   }
 
   checkStaffingLevel(e) {
