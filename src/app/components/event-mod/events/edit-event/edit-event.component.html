@@ -73,7 +73,15 @@
         <!-- Begin Cantor, Lector & Servers -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Cantor, Lectors & Servers </mat-panel-title>
+            <mat-panel-title>
+              <span> Cantor, Lectors & Servers </span>
+              <mat-icon class="icon-color" *ngIf="panel1Complete"
+                >verified</mat-icon
+              >
+              <mat-icon color="warn" *ngIf="!panel1Complete"
+                >report_problem</mat-icon
+              >
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div
             fxLayout
@@ -246,7 +254,15 @@
         <!-- Begin EMoHC & Technology -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> EHoMC & Technology </mat-panel-title>
+            <mat-panel-title>
+              <span> EHoMC & Technology </span>
+              <mat-icon class="icon-color" *ngIf="panel2Complete"
+                >verified</mat-icon
+              >
+              <mat-icon color="warn" *ngIf="!panel2Complete"
+                >report_problem</mat-icon
+              >
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div
             fxLayout
@@ -496,7 +512,15 @@
         <!-- Begin Usher & Mass Coordinator -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Ushers & Mass Coordinator </mat-panel-title>
+            <mat-panel-title>
+              <span> Ushers & Mass Coordinator </span>
+              <mat-icon class="icon-color" *ngIf="panel3Complete"
+                >verified</mat-icon
+              >
+              <mat-icon color="warn" *ngIf="!panel3Complete"
+                >report_problem</mat-icon
+              >
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div
             fxLayout
@@ -665,7 +689,15 @@
         <!-- Begin Rosary, Other & Gifts -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Rosary, Other & Gifts </mat-panel-title>
+            <mat-panel-title>
+              <span> Rosary, Other & Gifts </span>
+              <mat-icon class="icon-color" *ngIf="panel4Complete"
+                >verified</mat-icon
+              >
+              <mat-icon color="warn" *ngIf="!panel4Complete"
+                >report_problem</mat-icon
+              >
+            </mat-panel-title>
           </mat-expansion-panel-header>
           <div
             fxLayout

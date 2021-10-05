@@ -425,11 +425,10 @@ export class AddEventComponent implements OnInit {
     );
   }
 
-  updateUI(e, control) {
-    console.log(e);
+  updateUI(e) {
     // Update staffing level after input change
     this.checkStaffingLevel(this.currentEventType);
-    this.checkPanelStatus(control);
+    this.checkPanelStatus();
 
     /* If "Check for Matching Family" checkbox is checked
      return matching FamilyID. */
@@ -669,18 +668,17 @@ export class AddEventComponent implements OnInit {
     this.panel4Complete = false;
   }
 
-  checkPanelStatus(e) {
+  checkPanelStatus() {
     this.resetPanels();
-    console.log(e);
     if (this.currentEventType === 'Weekday') {
-      this.panel3Complete === true;
-      this.panel4Complete === true;
+      this.panel3Complete = true;
+      this.panel4Complete = true;
       if (this.f.lector1.value !== '' && this.f.server1.value !== '') {
         this.panel1Complete = true;
       }
 
       if (this.f.eMoHC1.value !== '') {
-        this.panel2Complete === true;
+        this.panel2Complete = true;
       }
     } else if (
       this.currentEventType === 'Saturday' ||
@@ -694,7 +692,7 @@ export class AddEventComponent implements OnInit {
         this.f.server2.value !== '' &&
         this.f.server3.value !== ''
       ) {
-        this.panel1Complete === true;
+        this.panel1Complete = true;
       }
 
       if (
@@ -708,7 +706,7 @@ export class AddEventComponent implements OnInit {
         this.f.tech1.value !== '' &&
         this.f.tech2.value !== ''
       ) {
-        this.panel2Complete === true;
+        this.panel2Complete = true;
       }
 
       if (
@@ -719,7 +717,7 @@ export class AddEventComponent implements OnInit {
         this.f.usher5.value !== '' &&
         this.f.massCord.value !== ''
       ) {
-        this.panel3Complete === true;
+        this.panel3Complete = true;
       }
 
       if (
@@ -728,7 +726,26 @@ export class AddEventComponent implements OnInit {
         this.f.gifts.value !== '' &&
         this.f.giftsChild.value !== ''
       ) {
-        this.panel4Complete === true;
+        this.panel4Complete = true;
+      }
+    } else {
+      this.panel4Complete = true;
+      if (
+        this.f.cantor.value !== '' &&
+        this.f.lector1.value !== '' &&
+        this.f.lector2.value !== '' &&
+        this.f.server1.value !== '' &&
+        this.f.server2.value !== ''
+      ) {
+        this.panel1Complete = true;
+      }
+
+      if (this.f.eMoHC1.value !== '' && this.f.eMoHC2.value !== '') {
+        this.panel2Complete = true;
+      }
+
+      if (this.f.usher1.value !== '' && this.f.usher2.value !== '') {
+        this.panel3Complete = true;
       }
     }
   }

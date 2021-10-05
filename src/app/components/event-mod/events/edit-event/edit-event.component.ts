@@ -94,9 +94,15 @@ export class EditEventComponent implements OnInit {
 
   eventEditForm: FormGroup;
   eventDateToAdd: number;
+  id: string;
+
+  panel1Complete: boolean = false;
+  panel2Complete: boolean = false;
+  panel3Complete: boolean = false;
+  panel4Complete: boolean = false;
+
   eventTypes = EVENT_TYPES;
   volunteerTypes = VOLUNTEER_TYPES;
-  id: string;
 
   constructor(
     private eventsService: EventsService,
@@ -142,7 +148,7 @@ export class EditEventComponent implements OnInit {
       tech1: ['', Validators.required],
       tech2: ['', Validators.required],
     });
-
+    this.disableFormInputs();
     this.loadAllVolunteers();
   }
 
@@ -267,7 +273,7 @@ export class EditEventComponent implements OnInit {
       this.f.date.patchValue(tempDate);
       this.updateUI(this.currentEventType);
       this.setEventDate(this.f.date.value);
-
+      this.setInputs();
       this.loadingService.loadingOff();
     }, 2000);
     this.onEventTypeChanged();
@@ -433,6 +439,7 @@ export class EditEventComponent implements OnInit {
   updateUI(e) {
     // Update staffing level after input change
     this.checkStaffingLevel(this.currentEventType);
+    this.checkPanelStatus();
 
     /* If "Check for Matching Family" checkbox is checked
      return matching FamilyID. */
@@ -544,6 +551,49 @@ export class EditEventComponent implements OnInit {
       this.enableFormInputs();
       this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
+    }
+  }
+
+  setInputs() {
+    if (this.currentEventType === 'Weekday') {
+      this.f.cantor.disable();
+      this.f.lector2.disable();
+      this.f.eMoHC2.disable();
+      this.f.eMoHC3.disable();
+      this.f.eMoHC4.disable();
+      this.f.eMoHC5.disable();
+      this.f.eMoHC6.disable();
+      this.f.eMoHC7.disable();
+      this.f.server2.disable();
+      this.f.server3.disable();
+      this.f.gifts.disable();
+      this.f.giftsChild.disable();
+      this.f.rosary1.disable();
+      this.f.rosary2.disable();
+      this.f.usher1.disable();
+      this.f.usher2.disable();
+      this.f.usher3.disable();
+      this.f.usher4.disable();
+      this.f.usher5.disable();
+      this.f.massCord.disable();
+      this.f.tech1.disable();
+      this.f.tech2.disable();
+      this.f.other.disable();
+    } else if (this.currentEventType === 'Sunday-Early') {
+      this.f.eMoHC3.disable();
+      this.f.eMoHC4.disable();
+      this.f.eMoHC5.disable();
+      this.f.eMoHC6.disable();
+      this.f.eMoHC7.disable();
+      this.f.server3.disable();
+      this.f.gifts.disable();
+      this.f.giftsChild.disable();
+      this.f.rosary1.disable();
+      this.f.rosary2.disable();
+      this.f.usher3.disable();
+      this.f.usher4.disable();
+      this.f.usher5.disable();
+      this.f.massCord.disable();
     }
   }
 
@@ -662,6 +712,95 @@ export class EditEventComponent implements OnInit {
       }
     }
     return;
+  }
+
+  resetPanels() {
+    this.panel1Complete = false;
+    this.panel2Complete = false;
+    this.panel3Complete = false;
+    this.panel4Complete = false;
+  }
+
+  checkPanelStatus() {
+    this.resetPanels();
+    if (this.currentEventType === 'Weekday') {
+      this.panel3Complete = true;
+      this.panel4Complete = true;
+      if (this.f.lector1.value !== '' && this.f.server1.value !== '') {
+        this.panel1Complete = true;
+      }
+
+      if (this.f.eMoHC1.value !== '') {
+        this.panel2Complete = true;
+      }
+    } else if (
+      this.currentEventType === 'Saturday' ||
+      this.currentEventType === 'Sunday-Late'
+    ) {
+      if (
+        this.f.cantor.value !== '' &&
+        this.f.lector1.value !== '' &&
+        this.f.lector2.value !== '' &&
+        this.f.server1.value !== '' &&
+        this.f.server2.value !== '' &&
+        this.f.server3.value !== ''
+      ) {
+        this.panel1Complete = true;
+      }
+
+      if (
+        this.f.eMoHC1.value !== '' &&
+        this.f.eMoHC2.value !== '' &&
+        this.f.eMoHC3.value !== '' &&
+        this.f.eMoHC4.value !== '' &&
+        this.f.eMoHC5.value !== '' &&
+        this.f.eMoHC6.value !== '' &&
+        this.f.eMoHC7.value !== '' &&
+        this.f.tech1.value !== '' &&
+        this.f.tech2.value !== ''
+      ) {
+        this.panel2Complete = true;
+      }
+
+      if (
+        this.f.usher1.value !== '' &&
+        this.f.usher2.value !== '' &&
+        this.f.usher3.value !== '' &&
+        this.f.usher4.value !== '' &&
+        this.f.usher5.value !== '' &&
+        this.f.massCord.value !== ''
+      ) {
+        this.panel3Complete = true;
+      }
+
+      if (
+        this.f.rosary1.value !== '' &&
+        this.f.rosary1.value !== '' &&
+        this.f.gifts.value !== '' &&
+        this.f.giftsChild.value !== ''
+      ) {
+        this.panel4Complete = true;
+      }
+    } else {
+      this.panel4Complete = true;
+      if (
+        this.f.cantor.value !== '' &&
+        this.f.lector1.value !== '' &&
+        this.f.lector2.value !== '' &&
+        this.f.server1.value !== '' &&
+        this.f.server2.value !== ''
+      ) {
+        this.panel1Complete = true;
+      }
+
+      if (this.f.eMoHC1.value !== '' && this.f.eMoHC2.value !== '') {
+        this.panel2Complete = true;
+      }
+
+      if (this.f.usher1.value !== '' && this.f.usher2.value !== '') {
+        this.panel3Complete = true;
+      }
+    }
   }
 
   checkStaffingLevel(e) {

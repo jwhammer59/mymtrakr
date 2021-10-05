@@ -78,8 +78,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span>Cantor, Lectors & Servers</span>
-            <mat-icon *ngIf="panel1Complete">done_all</mat-icon>
-            <mat-icon *ngIf="!panel1Complete">report_problem</mat-icon>
+            <mat-icon class="icon-color" *ngIf="panel1Complete"
+              >verified</mat-icon
+            >
+            <mat-icon color="warn" *ngIf="!panel1Complete"
+              >report_problem</mat-icon
+            >
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div
@@ -92,9 +96,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Cantor</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, cantor)"
+                (selectionChange)="updateUI($event)"
                 formControlName="cantor"
-                #cantor
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -118,9 +121,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Lector 1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, lector1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="lector1"
-                #lector1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -146,9 +148,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Lector 2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, lector2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="lector2"
-                #lector2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -180,9 +181,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Server 1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, server1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="server1"
-                #server1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -207,9 +207,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Server 2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, server2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="server2"
-                #server2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -232,9 +231,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Server 3</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, server3)"
+                (selectionChange)="updateUI($event)"
                 formControlName="server3"
-                #server3
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -261,8 +259,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span> EHoMC & Technology </span>
-            <mat-icon *ngIf="panel2Complete">done_all</mat-icon>
-            <mat-icon *ngIf="!panel2Complete">report_problem</mat-icon>
+            <mat-icon class="icon-color" *ngIf="panel2Complete"
+              >verified</mat-icon
+            >
+            <mat-icon color="warn" *ngIf="!panel2Complete"
+              >report_problem</mat-icon
+            >
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div
@@ -275,9 +277,8 @@
             <mat-form-field appearance="outline">
               <mat-label>EMoHC1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC1"
-                #eMoHC1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -302,9 +303,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>EMoHC2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC2"
-                #eMoHC2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -328,9 +328,8 @@
             <mat-form-field appearance="outline">
               <mat-label>EMoHC3</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC3)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC3"
-                #eMoHC3
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -361,9 +360,8 @@
             <mat-form-field appearance="outline">
               <mat-label>EMoHC4</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC4)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC4"
-                #eMoHC4
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -386,9 +384,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>EMoHC5</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC5)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC5"
-                #eMoHC5
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -411,9 +408,8 @@
             <mat-form-field appearance="outline">
               <mat-label>EMoHC6</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC6)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC6"
-                #eMoHC6
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -444,9 +440,8 @@
             <mat-form-field appearance="outline">
               <mat-label>EMoHC7</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, eMoHC7)"
+                (selectionChange)="updateUI($event)"
                 formControlName="eMoHC7"
-                #eMoHC7
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -469,9 +464,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Tech 1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, tech1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="tech1"
-                #tech1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -495,9 +489,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Tech 2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, tech2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="tech2"
-                #tech2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -524,8 +517,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span> Ushers & Mass Coordinator </span>
-            <mat-icon *ngIf="panel3Complete">done_all</mat-icon>
-            <mat-icon *ngIf="!panel3Complete">report_problem</mat-icon>
+            <mat-icon class="icon-color" *ngIf="panel3Complete"
+              >verified</mat-icon
+            >
+            <mat-icon color="warn" *ngIf="!panel3Complete"
+              >report_problem</mat-icon
+            >
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div
@@ -538,9 +535,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Usher 1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, usher1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="usher1"
-                #usher1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -565,9 +561,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Usher 2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, usher2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="usher2"
-                #usher2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -591,9 +586,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Usher 3</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, usher3)"
+                (selectionChange)="updateUI($event)"
                 formControlName="usher3"
-                #usher3
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -624,9 +618,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Usher 4</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, usher4)"
+                (selectionChange)="updateUI($event)"
                 formControlName="usher4"
-                #usher4
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -649,9 +642,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Usher 5</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, usher5)"
+                (selectionChange)="updateUI($event)"
                 formControlName="usher5"
-                #usher5
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -674,9 +666,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Mass Coordinator</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, massCord)"
+                (selectionChange)="updateUI($event)"
                 formControlName="massCord"
-                #massCord
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -703,8 +694,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span> Rosary, Other & Gifts </span>
-            <mat-icon *ngIf="panel4Complete">done_all</mat-icon>
-            <mat-icon *ngIf="!panel4Complete">report_problem</mat-icon>
+            <mat-icon class="icon-color" *ngIf="panel4Complete"
+              >verified</mat-icon
+            >
+            <mat-icon color="warn" *ngIf="!panel4Complete"
+              >report_problem</mat-icon
+            >
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div
@@ -717,9 +712,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Rosary 1</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, rosary1)"
+                (selectionChange)="updateUI($event)"
                 formControlName="rosary1"
-                #rosary1
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -744,9 +738,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Rosary 2</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, rosary2)"
+                (selectionChange)="updateUI($event)"
                 formControlName="rosary2"
-                #rosary2
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -769,11 +762,10 @@
             <mat-form-field appearance="outline">
               <mat-label>Other</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, other)"
+                (selectionChange)="updateUI($event)"
                 formControlName="other"
-                #other
               >
-                <mat-option>--</mat-option>
+                <mat-option [value]="''">--</mat-option>
                 <mat-option
                   *ngFor="let other of othersByDate$ | async"
                   [value]="other.firstName + ' ' + other.lastName"
@@ -802,9 +794,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Gifts</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, gifts)"
+                (selectionChange)="updateUI($event)"
                 formControlName="gifts"
-                #gifts
               >
                 <mat-option>--</mat-option>
                 <mat-option
@@ -828,9 +819,8 @@
             <mat-form-field appearance="outline"
               ><mat-label>Child Gifts</mat-label>
               <mat-select
-                (selectionChange)="updateUI($event, giftsChild)"
+                (selectionChange)="updateUI($event)"
                 formControlName="giftsChild"
-                #giftsChild
               >
                 <mat-option>--</mat-option>
                 <mat-option
