@@ -17,7 +17,6 @@ export class Event {
   giftsChild: string;
   rosary1: string;
   rosary2: string;
-  other: string;
   usher1: string;
   usher2: string;
   usher3: string;

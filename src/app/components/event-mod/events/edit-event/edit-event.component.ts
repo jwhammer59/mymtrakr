@@ -70,7 +70,6 @@ export class EditEventComponent implements OnInit {
   onlyGiftsChild$: Observable<any>;
   onlyRosarys$: Observable<any>;
   onlyTechs$: Observable<any>;
-  onlyOthers$: Observable<any>;
   onlyEMoHCs$: Observable<any>;
   onlyMassCoords$: Observable<any>;
   selectedVolunteer$: Observable<any>;
@@ -85,7 +84,6 @@ export class EditEventComponent implements OnInit {
   childGiftsByDate$: Observable<any>;
   rosarysByDate$: Observable<any>;
   techsByDate$: Observable<any>;
-  othersByDate$: Observable<any>;
   eMoHCsByDate$: Observable<any>;
   massCoordsByDate$: Observable<any>;
 
@@ -135,7 +133,6 @@ export class EditEventComponent implements OnInit {
       giftsChild: ['', Validators.required],
       rosary1: ['', Validators.required],
       rosary2: ['', Validators.required],
-      other: ['', Validators.required],
       usher1: ['', Validators.required],
       usher2: ['', Validators.required],
       usher3: ['', Validators.required],
@@ -219,15 +216,6 @@ export class EditEventComponent implements OnInit {
         volunteers.filter(
           (volunteer) =>
             volunteer.isRosary === true && volunteer.isAvailable === true
-        )
-      )
-    );
-
-    this.onlyOthers$ = this.allVolunteers$.pipe(
-      map((volunteers) =>
-        volunteers.filter(
-          (volunteer) =>
-            volunteer.isOther === true && volunteer.isAvailable === true
         )
       )
     );
@@ -405,16 +393,6 @@ export class EditEventComponent implements OnInit {
       )
     );
 
-    this.othersByDate$ = this.onlyOthers$.pipe(
-      map((volunteers) =>
-        volunteers.filter(
-          (volunteer: Volunteer) =>
-            !volunteer.dateUnAvailable.includes(eventDate) &&
-            volunteer[dayToCheck] === true
-        )
-      )
-    );
-
     this.eMoHCsByDate$ = this.onlyEMoHCs$.pipe(
       map((volunteers) =>
         volunteers.filter(
@@ -544,12 +522,10 @@ export class EditEventComponent implements OnInit {
       this.f.usher2.enable();
       this.f.server1.enable();
       this.f.server2.enable();
-      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else {
       // Enable required fields
       this.enableFormInputs();
-      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     }
   }
@@ -578,7 +554,6 @@ export class EditEventComponent implements OnInit {
       this.f.massCord.disable();
       this.f.tech1.disable();
       this.f.tech2.disable();
-      this.f.other.disable();
     } else if (this.currentEventType === 'Sunday-Early') {
       this.f.eMoHC3.disable();
       this.f.eMoHC4.disable();
@@ -631,6 +606,11 @@ export class EditEventComponent implements OnInit {
           this.f.eMoHC2.value === this.f.eMoHC3.value
         ) {
           return (this.hasDuplicateEMoHC = true);
+        }
+
+        // Check for duplicate Tech
+        if (this.f.tech1.value === this.f.tech2.value) {
+          return (this.hasDuplicateTech = true);
         }
 
         // Check for duplicate Ushers
@@ -809,7 +789,7 @@ export class EditEventComponent implements OnInit {
     if (e === 'Weekday') {
       eventTypeMultiplier = 33.4;
     } else if (e === 'Sunday-Early') {
-      eventTypeMultiplier = 11.2;
+      eventTypeMultiplier = 9.1;
     } else {
       eventTypeMultiplier = 4;
     }
@@ -869,19 +849,26 @@ export class EditEventComponent implements OnInit {
         return;
       }
 
-      if (!this.incompleteEventApproval)
-        this.checkStaffingLevel(this.currentEventType);
-      if (this.prBarCounter < 100) {
-        this.eventIsFull = false;
-        this.eventEditForm.controls['isFull'].patchValue(false);
-      } else {
-        this.eventIsFull = true;
-        this.eventEditForm.controls['isFull'].patchValue(true);
-      }
-      this.eventsService.updateEvent(value);
-      this.autoDismissSnackBar('Event Updated!', '');
-      this.router.navigate(['/events']);
+      this.processSubmit(value);
+    } else {
+      this.processSubmit(value);
     }
+  }
+
+  processSubmit(value) {
+    console.log('Process Submit');
+    if (!this.incompleteEventApproval)
+      this.checkStaffingLevel(this.currentEventType);
+    if (this.prBarCounter < 100) {
+      this.eventIsFull = false;
+      this.eventEditForm.controls['isFull'].patchValue(false);
+    } else {
+      this.eventIsFull = true;
+      this.eventEditForm.controls['isFull'].patchValue(true);
+    }
+    this.eventsService.updateEvent(value);
+    this.autoDismissSnackBar('Event Updated!', '');
+    this.router.navigate(['/events']);
   }
 
   manualDismissSnackBar(message: string, action: string) {

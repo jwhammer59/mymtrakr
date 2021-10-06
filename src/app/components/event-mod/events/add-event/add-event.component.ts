@@ -64,7 +64,6 @@ export class AddEventComponent implements OnInit {
   onlyGiftsChild$: Observable<any>;
   onlyRosarys$: Observable<any>;
   onlyTechs$: Observable<any>;
-  onlyOthers$: Observable<any>;
   onlyEMoHCs$: Observable<any>;
   onlyMassCoords$: Observable<any>;
   selectedVolunteer$: Observable<any>;
@@ -79,7 +78,6 @@ export class AddEventComponent implements OnInit {
   childGiftsByDate$: Observable<any>;
   rosarysByDate$: Observable<any>;
   techsByDate$: Observable<any>;
-  othersByDate$: Observable<any>;
   eMoHCsByDate$: Observable<any>;
   massCoordsByDate$: Observable<any>;
 
@@ -124,7 +122,6 @@ export class AddEventComponent implements OnInit {
       giftsChild: ['', Validators.required],
       rosary1: ['', Validators.required],
       rosary2: ['', Validators.required],
-      other: '',
       usher1: ['', Validators.required],
       usher2: ['', Validators.required],
       usher3: ['', Validators.required],
@@ -221,15 +218,6 @@ export class AddEventComponent implements OnInit {
         volunteers.filter(
           (volunteer) =>
             volunteer.isRosary === true && volunteer.isAvailable === true
-        )
-      )
-    );
-
-    this.onlyOthers$ = this.allVolunteers$.pipe(
-      map((volunteers) =>
-        volunteers.filter(
-          (volunteer) =>
-            volunteer.isOther === true && volunteer.isAvailable === true
         )
       )
     );
@@ -394,16 +382,6 @@ export class AddEventComponent implements OnInit {
       )
     );
 
-    this.othersByDate$ = this.onlyOthers$.pipe(
-      map((volunteers) =>
-        volunteers.filter(
-          (volunteer: Volunteer) =>
-            !volunteer.dateUnAvailable.includes(eventDate) &&
-            volunteer[dayToCheck] === true
-        )
-      )
-    );
-
     this.eMoHCsByDate$ = this.onlyEMoHCs$.pipe(
       map((volunteers) =>
         volunteers.filter(
@@ -534,12 +512,12 @@ export class AddEventComponent implements OnInit {
       this.f.usher2.enable();
       this.f.server1.enable();
       this.f.server2.enable();
-      this.f.other.enable();
+      this.f.tech1.enable();
+      this.f.tech2.enable();
       this.checkStaffingLevel(this.currentEventType);
     } else {
       // Enable required fields
       this.enableFormInputs();
-      this.f.other.enable();
       this.checkStaffingLevel(this.currentEventType);
     }
   }
@@ -578,6 +556,11 @@ export class AddEventComponent implements OnInit {
           this.f.eMoHC2.value === this.f.eMoHC3.value
         ) {
           return (this.hasDuplicateEMoHC = true);
+        }
+
+        // Check for duplicate Tech
+        if (this.f.tech1.value === this.f.tech2.value) {
+          return (this.hasDuplicateTech = true);
         }
 
         // Check for duplicate Ushers
@@ -740,7 +723,12 @@ export class AddEventComponent implements OnInit {
         this.panel1Complete = true;
       }
 
-      if (this.f.eMoHC1.value !== '' && this.f.eMoHC2.value !== '') {
+      if (
+        this.f.eMoHC1.value !== '' &&
+        this.f.eMoHC2.value !== '' &&
+        this.f.tech1.value !== '' &&
+        this.f.tech2.value !== ''
+      ) {
         this.panel2Complete = true;
       }
 
@@ -756,7 +744,7 @@ export class AddEventComponent implements OnInit {
     if (e === 'Weekday') {
       eventTypeMultiplier = 33.4;
     } else if (e === 'Sunday-Early') {
-      eventTypeMultiplier = 11.2;
+      eventTypeMultiplier = 9.1;
     } else {
       eventTypeMultiplier = 4;
     }
@@ -780,6 +768,7 @@ export class AddEventComponent implements OnInit {
     let newValue = value;
     this.eventDateToAdd = Math.floor(value.date);
     newValue.date = this.eventDateToAdd;
+
     if (!valid && !this.incompleteEventApproval) {
       // Show Error Message
       this.autoDismissSnackBar('Form Invalid', '');
@@ -815,20 +804,27 @@ export class AddEventComponent implements OnInit {
         return;
       }
 
-      if (!this.incompleteEventApproval)
-        this.checkStaffingLevel(this.currentEventType);
-      if (this.prBarCounter < 100) {
-        this.eventIsFull = false;
-        this.addEventForm.controls['isFull'].patchValue(false);
-      } else {
-        this.eventIsFull = true;
-        this.addEventForm.controls['isFull'].patchValue(true);
-      }
-
-      this.eventsService.addEvent(value);
-      this.autoDismissSnackBar('Event Added!', '');
-      this.router.navigate(['/events']);
+      this.processSubmit(value);
+    } else {
+      this.processSubmit(value);
     }
+  }
+
+  processSubmit(value) {
+    console.log('Process Submit');
+    if (!this.incompleteEventApproval)
+      this.checkStaffingLevel(this.currentEventType);
+    if (this.prBarCounter < 100) {
+      this.eventIsFull = false;
+      this.addEventForm.controls['isFull'].patchValue(false);
+    } else {
+      this.eventIsFull = true;
+      this.addEventForm.controls['isFull'].patchValue(true);
+    }
+
+    this.eventsService.addEvent(value);
+    this.autoDismissSnackBar('Event Added!', '');
+    this.router.navigate(['/events']);
   }
 
   manualDismissSnackBar(message: string, action: string) {

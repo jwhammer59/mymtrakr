@@ -689,11 +689,11 @@
         </div>
       </mat-expansion-panel>
 
-      <!-- Begin Rosary, Other & Gifts -->
+      <!-- Begin Rosary & Gifts -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span> Rosary, Other & Gifts </span>
+            <span> Rosary & Gifts </span>
             <mat-icon class="icon-color" *ngIf="panel4Complete"
               >verified</mat-icon
             >
@@ -755,30 +755,6 @@
                   currentEventType === 'Sunday-Late'
                 "
                 >Choose rosary volunteer.</mat-hint
-              >
-            </mat-form-field>
-          </div>
-          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-            <mat-form-field appearance="outline">
-              <mat-label>Other</mat-label>
-              <mat-select
-                (selectionChange)="updateUI($event)"
-                formControlName="other"
-              >
-                <mat-option [value]="''">--</mat-option>
-                <mat-option
-                  *ngFor="let other of othersByDate$ | async"
-                  [value]="other.firstName + ' ' + other.lastName"
-                >
-                  {{ other.firstName }} {{ other.lastName }}
-                </mat-option>
-              </mat-select>
-              <mat-hint
-                *ngIf="
-                  currentEventType === 'Saturday' ||
-                  currentEventType === 'Sunday-Late'
-                "
-                >Choose other volunteer.</mat-hint
               >
             </mat-form-field>
           </div>

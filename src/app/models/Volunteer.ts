@@ -19,7 +19,6 @@ export class Volunteer {
   isGiftsChild: boolean;
   isLector: boolean;
   isMassCoord: boolean;
-  isOther: boolean;
   isRosary: boolean;
   isServer: boolean;
   isTech: boolean;

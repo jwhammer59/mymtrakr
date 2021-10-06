@@ -39,7 +39,6 @@ export class DetailVolunteerComponent implements OnInit {
     isGiftsChild: false,
     isLector: false,
     isMassCoord: false,
-    isOther: false,
     isRosary: false,
     isServer: false,
     isTech: false,

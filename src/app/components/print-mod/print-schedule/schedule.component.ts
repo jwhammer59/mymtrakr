@@ -33,7 +33,6 @@ export class ScheduleComponent implements OnInit {
     giftsChild: '',
     rosary1: '',
     rosary2: '',
-    other: '',
     usher1: '',
     usher2: '',
     usher3: '',
