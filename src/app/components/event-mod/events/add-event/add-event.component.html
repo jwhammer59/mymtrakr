@@ -77,14 +77,18 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span>Cantor, Lectors & Servers</span>
             <mat-icon class="icon-color" *ngIf="panel1Complete"
               >verified</mat-icon
             >
+            <span *ngIf="panel1Complete">Completed!</span>
             <mat-icon color="warn" *ngIf="!panel1Complete"
               >report_problem</mat-icon
             >
+            <span *ngIf="!panel1Complete">Info Needed!</span>
           </mat-panel-title>
+          <mat-panel-description>
+            <span>Cantor, Lectors & Servers</span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <div
           fxLayout
@@ -258,14 +262,18 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span> EHoMC & Technology </span>
             <mat-icon class="icon-color" *ngIf="panel2Complete"
               >verified</mat-icon
             >
+            <span *ngIf="panel2Complete">Completed!</span>
             <mat-icon color="warn" *ngIf="!panel2Complete"
               >report_problem</mat-icon
             >
+            <span *ngIf="!panel2Complete">Info Needed!</span>
           </mat-panel-title>
+          <mat-panel-description>
+            <span> EHoMC & Technology </span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <div
           fxLayout
@@ -516,14 +524,18 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span> Ushers & Mass Coordinator </span>
             <mat-icon class="icon-color" *ngIf="panel3Complete"
               >verified</mat-icon
             >
+            <span *ngIf="panel3Complete">Completed!</span>
             <mat-icon color="warn" *ngIf="!panel3Complete"
               >report_problem</mat-icon
             >
+            <span *ngIf="!panel3Complete">Info Needed!</span>
           </mat-panel-title>
+          <mat-panel-description>
+            <span> Ushers & Mass Coordinator </span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <div
           fxLayout
@@ -693,14 +705,18 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span> Rosary & Gifts </span>
             <mat-icon class="icon-color" *ngIf="panel4Complete"
               >verified</mat-icon
             >
+            <span *ngIf="panel4Complete">Completed!</span>
             <mat-icon color="warn" *ngIf="!panel4Complete"
               >report_problem</mat-icon
             >
+            <span *ngIf="!panel4Complete">Info Needed!</span>
           </mat-panel-title>
+          <mat-panel-description>
+            <span> Rosary & Gifts </span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <div
           fxLayout

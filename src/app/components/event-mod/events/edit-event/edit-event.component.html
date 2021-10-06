@@ -3,866 +3,878 @@
   [color]="headerColor"
   [icon]="headerIcon"
 ></app-header>
-<div fxLayout fxLayoutAlign="center center">
-  <mat-card>
-    <form
-      *ngIf="event$ | async; else loading"
-      [formGroup]="eventEditForm"
-      (ngSubmit)="onSubmit(eventEditForm)"
-      novalidate
-    >
-      <div fxLayout="column" fxLayoutAlign="center center" id="prBar">
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <h3>Event Volunteer Capacity</h3>
-          <p>{{ prBarCounter | roundNum }}%</p>
-        </div>
-        <mat-progress-bar mode="determinate" [value]="prBarCounter">
-        </mat-progress-bar>
+
+<mat-card>
+  <form
+    *ngIf="event$ | async; else loading"
+    [formGroup]="eventEditForm"
+    (ngSubmit)="onSubmit(eventEditForm)"
+    novalidate
+  >
+    <div fxLayout="column" fxLayoutAlign="center center" id="prBar">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <h3>Event Volunteer Capacity</h3>
+        <p>{{ prBarCounter | roundNum }}%</p>
       </div>
-      <!-- <div fxLayout fxLayoutAlign="center center">
+      <mat-progress-bar mode="determinate" [value]="prBarCounter">
+      </mat-progress-bar>
+    </div>
+    <!-- <div fxLayout fxLayoutAlign="center center">
         <h2>
           Event Date to Edit:
           {{ tempCalcDate | date: "longDate" }}
         </h2>
       </div> -->
-      <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
-        <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline">
-            <mat-label color="accent">Event Type</mat-label>
-            <mat-select
-              formControlName="type"
-              (selectionChange)="onUpdateEventType($event)"
+    <div fxLayout fxLayout.lt-md="column" fxLayoutAlign="center center">
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+        <mat-form-field appearance="outline">
+          <mat-label color="accent">Event Type</mat-label>
+          <mat-select
+            formControlName="type"
+            (selectionChange)="onUpdateEventType($event)"
+          >
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let type of eventTypes" [value]="type.value">
+              {{ type.viewValue }}
+            </mat-option>
+          </mat-select>
+          <mat-hint>Choose event type.</mat-hint>
+        </mat-form-field>
+      </div>
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+        <mat-form-field>
+          <input
+            (dateChange)="setEventDate($event)"
+            matInput
+            formControlName="date"
+            [matDatepickerFilter]="dayAllowedFilter"
+            [matDatepicker]="picker"
+            placeholder="Choose event date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>Event Date Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+        <mat-checkbox [checked]="eventIsFull" formControlName="isFull" disabled
+          >Event Is Full</mat-checkbox
+        >
+      </div>
+    </div>
+
+    <mat-accordion>
+      <!-- Begin Cantor, Lector & Servers -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="icon-color" *ngIf="panel1Complete"
+              >verified</mat-icon
             >
-              <mat-option>--</mat-option>
-              <mat-option *ngFor="let type of eventTypes" [value]="type.value">
-                {{ type.viewValue }}
-              </mat-option>
-            </mat-select>
-            <mat-hint>Choose event type.</mat-hint>
-          </mat-form-field>
+            <span *ngIf="panel1Complete">Completed!</span>
+            <mat-icon color="warn" *ngIf="!panel1Complete"
+              >report_problem</mat-icon
+            >
+            <span *ngIf="!panel1Complete">Info Needed!</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span> Cantor, Lectors & Servers </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Cantor</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="cantor"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let cantor of cantorsByDate$ | async"
+                  [value]="cantor.firstName + ' ' + cantor.lastName"
+                >
+                  {{ cantor.firstName }} {{ cantor.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose cantor volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Lector 1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="lector1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let lector of lectorsByDate$ | async"
+                  [value]="lector.firstName + ' ' + lector.lastName"
+                >
+                  {{ lector.firstName }} {{ lector.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late' ||
+                  currentEventType === 'Weekday'
+                "
+              >
+                Choose lector volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Lector 2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="lector2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let lector of lectorsByDate$ | async"
+                  [value]="lector.firstName + ' ' + lector.lastName"
+                >
+                  {{ lector.firstName }} {{ lector.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose lector volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
         </div>
-        <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-          <mat-form-field>
-            <input
-              (dateChange)="setEventDate($event)"
-              matInput
-              formControlName="date"
-              [matDatepickerFilter]="dayAllowedFilter"
-              [matDatepicker]="picker"
-              placeholder="Choose event date"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error>Event Date Required</mat-error>
-          </mat-form-field>
+
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Server 1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="server1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let server of serversByDate$ | async"
+                  [value]="server.firstName + ' ' + server.lastName"
+                >
+                  {{ server.firstName }} {{ server.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late' ||
+                  currentEventType === 'Weekday'
+                "
+                >Choose server volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Server 2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="server2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let server of serversByDate$ | async"
+                  [value]="server.firstName + ' ' + server.lastName"
+                >
+                  {{ server.firstName }} {{ server.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose server volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Server 3</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="server3"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let server of serversByDate$ | async"
+                  [value]="server.firstName + ' ' + server.lastName"
+                >
+                  {{ server.firstName }} {{ server.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose server volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
         </div>
-        <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-          <mat-checkbox
-            [checked]="eventIsFull"
-            formControlName="isFull"
-            disabled
-            >Event Is Full</mat-checkbox
-          >
+      </mat-expansion-panel>
+
+      <!-- Begin EMoHC & Technology -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="icon-color" *ngIf="panel2Complete"
+              >verified</mat-icon
+            >
+            <span *ngIf="panel2Complete">Completed!</span>
+            <mat-icon color="warn" *ngIf="!panel2Complete"
+              >report_problem</mat-icon
+            >
+            <span *ngIf="!panel2Complete">Info Needed!</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span> EHoMC & Technology </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>EMoHC1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late' ||
+                  currentEventType === 'Weekday'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>EMoHC2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>EMoHC3</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC3"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
         </div>
+
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>EMoHC4</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC4"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>EMoHC5</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC5"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>EMoHC6</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC6"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>EMoHC7</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="eMoHC7"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let EMoHC of eMoHCsByDate$ | async"
+                  [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
+                >
+                  {{ EMoHC.firstName }} {{ EMoHC.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose EMoHC volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Tech 1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="tech1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let tech of techsByDate$ | async"
+                  [value]="tech.firstName + ' ' + tech.lastName"
+                >
+                  {{ tech.firstName }} {{ tech.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose technology volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Tech 2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="tech2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let tech of techsByDate$ | async"
+                  [value]="tech.firstName + ' ' + tech.lastName"
+                >
+                  {{ tech.firstName }} {{ tech.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose technology volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <!-- Begin Usher & Mass Coordinator -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="icon-color" *ngIf="panel3Complete"
+              >verified</mat-icon
+            >
+            <span *ngIf="panel3Complete">Completed!</span>
+            <mat-icon color="warn" *ngIf="!panel3Complete"
+              >report_problem</mat-icon
+            >
+            <span *ngIf="!panel3Complete">Info Needed!</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span> Ushers & Mass Coordinator </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Usher 1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="usher1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let usher of ushersByDate$ | async"
+                  [value]="usher.firstName + ' ' + usher.lastName"
+                >
+                  {{ usher.firstName }} {{ usher.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+              >
+                Choose an usher volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Usher 2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="usher2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let usher of ushersByDate$ | async"
+                  [value]="usher.firstName + ' ' + usher.lastName"
+                >
+                  {{ usher.firstName }} {{ usher.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose an usher volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Usher 3</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="usher3"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let usher of ushersByDate$ | async"
+                  [value]="usher.firstName + ' ' + usher.lastName"
+                >
+                  {{ usher.firstName }} {{ usher.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose an usher volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Usher 4</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="usher4"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let usher of ushersByDate$ | async"
+                  [value]="usher.firstName + ' ' + usher.lastName"
+                >
+                  {{ usher.firstName }} {{ usher.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose an usher volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Usher 5</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="usher5"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let usher of ushersByDate$ | async"
+                  [value]="usher.firstName + ' ' + usher.lastName"
+                >
+                  {{ usher.firstName }} {{ usher.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose an usher volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Mass Coordinator</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="massCord"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let massCord of massCoordsByDate$ | async"
+                  [value]="massCord.firstName + ' ' + massCord.lastName"
+                >
+                  {{ massCord.firstName }} {{ massCord.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose mass coordinator volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <!-- Begin Rosary & Gifts -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="icon-color" *ngIf="panel4Complete"
+              >verified</mat-icon
+            >
+            <span *ngIf="panel4Complete">Completed!</span>
+            <mat-icon color="warn" *ngIf="!panel4Complete"
+              >report_problem</mat-icon
+            >
+            <span *ngIf="!panel4Complete">Info Needed!</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span> Rosary & Gifts </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Rosary 1</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="rosary1"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let rosary of rosarysByDate$ | async"
+                  [value]="rosary.firstName + ' ' + rosary.lastName"
+                >
+                  {{ rosary.firstName }} {{ rosary.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+              >
+                Choose rosary volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Rosary 2</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="rosary2"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let rosary of rosarysByDate$ | async"
+                  [value]="rosary.firstName + ' ' + rosary.lastName"
+                >
+                  {{ rosary.firstName }} {{ rosary.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose rosary volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          fxLayout
+          fxLayout.lt-md="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline">
+              <mat-label>Gifts</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="gifts"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let gift of giftsByDate$ | async"
+                  [value]="gift.firstName + ' ' + gift.lastName"
+                >
+                  {{ gift.firstName }} {{ gift.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Early' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose gifts volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
+            <mat-form-field appearance="outline"
+              ><mat-label>Child Gifts</mat-label>
+              <mat-select
+                (selectionChange)="updateUI($event)"
+                formControlName="giftsChild"
+              >
+                <mat-option [value]="''">--</mat-option>
+                <mat-option
+                  *ngFor="let giftChild of childGiftsByDate$ | async"
+                  [value]="giftChild.firstName + ' ' + giftChild.lastName"
+                >
+                  {{ giftChild.firstName }} {{ giftChild.lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  currentEventType === 'Saturday' ||
+                  currentEventType === 'Sunday-Late'
+                "
+                >Choose a child gift volunteer.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div
+      fxLayout
+      fxLayout.lt-md="column"
+      fxLayoutAlign="center center"
+      id="checkbox-group"
+    >
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <mat-checkbox
+          [(ngModel)]="incompleteEventApproval"
+          [ngModelOptions]="{ standalone: true }"
+          matTooltip="Allows incomplete event to be saved."
+          >Incomplete Event Approval</mat-checkbox
+        >
       </div>
-
-      <mat-accordion>
-        <!-- Begin Cantor, Lector & Servers -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span> Cantor, Lectors & Servers </span>
-              <mat-icon class="icon-color" *ngIf="panel1Complete"
-                >verified</mat-icon
-              >
-              <mat-icon color="warn" *ngIf="!panel1Complete"
-                >report_problem</mat-icon
-              >
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Cantor</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="cantor"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let cantor of cantorsByDate$ | async"
-                    [value]="cantor.firstName + ' ' + cantor.lastName"
-                  >
-                    {{ cantor.firstName }} {{ cantor.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose cantor volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Lector 1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="lector1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let lector of lectorsByDate$ | async"
-                    [value]="lector.firstName + ' ' + lector.lastName"
-                  >
-                    {{ lector.firstName }} {{ lector.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late' ||
-                    currentEventType === 'Weekday'
-                  "
-                >
-                  Choose lector volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Lector 2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="lector2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let lector of lectorsByDate$ | async"
-                    [value]="lector.firstName + ' ' + lector.lastName"
-                  >
-                    {{ lector.firstName }} {{ lector.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose lector volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Server 1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="server1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let server of serversByDate$ | async"
-                    [value]="server.firstName + ' ' + server.lastName"
-                  >
-                    {{ server.firstName }} {{ server.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late' ||
-                    currentEventType === 'Weekday'
-                  "
-                  >Choose server volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Server 2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="server2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let server of serversByDate$ | async"
-                    [value]="server.firstName + ' ' + server.lastName"
-                  >
-                    {{ server.firstName }} {{ server.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose server volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Server 3</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="server3"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let server of serversByDate$ | async"
-                    [value]="server.firstName + ' ' + server.lastName"
-                  >
-                    {{ server.firstName }} {{ server.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose server volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-expansion-panel>
-
-        <!-- Begin EMoHC & Technology -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span> EHoMC & Technology </span>
-              <mat-icon class="icon-color" *ngIf="panel2Complete"
-                >verified</mat-icon
-              >
-              <mat-icon color="warn" *ngIf="!panel2Complete"
-                >report_problem</mat-icon
-              >
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>EMoHC1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late' ||
-                    currentEventType === 'Weekday'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>EMoHC2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>EMoHC3</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC3"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>EMoHC4</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC4"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>EMoHC5</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC5"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>EMoHC6</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC6"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>EMoHC7</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="eMoHC7"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let EMoHC of eMoHCsByDate$ | async"
-                    [value]="EMoHC.firstName + ' ' + EMoHC.lastName"
-                  >
-                    {{ EMoHC.firstName }} {{ EMoHC.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose EMoHC volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Tech 1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="tech1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let tech of techsByDate$ | async"
-                    [value]="tech.firstName + ' ' + tech.lastName"
-                  >
-                    {{ tech.firstName }} {{ tech.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose technology volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Tech 2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="tech2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let tech of techsByDate$ | async"
-                    [value]="tech.firstName + ' ' + tech.lastName"
-                  >
-                    {{ tech.firstName }} {{ tech.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose technology volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-expansion-panel>
-
-        <!-- Begin Usher & Mass Coordinator -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span> Ushers & Mass Coordinator </span>
-              <mat-icon class="icon-color" *ngIf="panel3Complete"
-                >verified</mat-icon
-              >
-              <mat-icon color="warn" *ngIf="!panel3Complete"
-                >report_problem</mat-icon
-              >
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Usher 1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="usher1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let usher of ushersByDate$ | async"
-                    [value]="usher.firstName + ' ' + usher.lastName"
-                  >
-                    {{ usher.firstName }} {{ usher.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                >
-                  Choose an usher volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Usher 2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="usher2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let usher of ushersByDate$ | async"
-                    [value]="usher.firstName + ' ' + usher.lastName"
-                  >
-                    {{ usher.firstName }} {{ usher.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose an usher volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Usher 3</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="usher3"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let usher of ushersByDate$ | async"
-                    [value]="usher.firstName + ' ' + usher.lastName"
-                  >
-                    {{ usher.firstName }} {{ usher.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose an usher volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Usher 4</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="usher4"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let usher of ushersByDate$ | async"
-                    [value]="usher.firstName + ' ' + usher.lastName"
-                  >
-                    {{ usher.firstName }} {{ usher.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose an usher volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Usher 5</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="usher5"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let usher of ushersByDate$ | async"
-                    [value]="usher.firstName + ' ' + usher.lastName"
-                  >
-                    {{ usher.firstName }} {{ usher.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose an usher volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Mass Coordinator</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="massCord"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let massCord of massCoordsByDate$ | async"
-                    [value]="massCord.firstName + ' ' + massCord.lastName"
-                  >
-                    {{ massCord.firstName }} {{ massCord.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose mass coordinator volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-expansion-panel>
-
-        <!-- Begin Rosary & Gifts -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span> Rosary & Gifts </span>
-              <mat-icon class="icon-color" *ngIf="panel4Complete"
-                >verified</mat-icon
-              >
-              <mat-icon color="warn" *ngIf="!panel4Complete"
-                >report_problem</mat-icon
-              >
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Rosary 1</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="rosary1"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let rosary of rosarysByDate$ | async"
-                    [value]="rosary.firstName + ' ' + rosary.lastName"
-                  >
-                    {{ rosary.firstName }} {{ rosary.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                >
-                  Choose rosary volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Rosary 2</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="rosary2"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let rosary of rosarysByDate$ | async"
-                    [value]="rosary.firstName + ' ' + rosary.lastName"
-                  >
-                    {{ rosary.firstName }} {{ rosary.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose rosary volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div
-            fxLayout
-            fxLayout.lt-md="column"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline">
-                <mat-label>Gifts</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="gifts"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let gift of giftsByDate$ | async"
-                    [value]="gift.firstName + ' ' + gift.lastName"
-                  >
-                    {{ gift.firstName }} {{ gift.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Early' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose gifts volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div fxFlex="1 1 auto" fxFlex.lt-md="100%">
-              <mat-form-field appearance="outline"
-                ><mat-label>Child Gifts</mat-label>
-                <mat-select
-                  (selectionChange)="updateUI($event)"
-                  formControlName="giftsChild"
-                >
-                  <mat-option [value]="''">--</mat-option>
-                  <mat-option
-                    *ngFor="let giftChild of childGiftsByDate$ | async"
-                    [value]="giftChild.firstName + ' ' + giftChild.lastName"
-                  >
-                    {{ giftChild.firstName }} {{ giftChild.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  *ngIf="
-                    currentEventType === 'Saturday' ||
-                    currentEventType === 'Sunday-Late'
-                  "
-                  >Choose a child gift volunteer.</mat-hint
-                >
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-
-      <div
-        fxLayout
-        fxLayout.lt-md="column"
-        fxLayoutAlign="center center"
-        id="checkbox-group"
-      >
-        <div fxFlex="33%" fxFlex.lt-md="100%">
-          <mat-checkbox
-            [(ngModel)]="incompleteEventApproval"
-            [ngModelOptions]="{ standalone: true }"
-            matTooltip="Allows incomplete event to be saved."
-            >Incomplete Event Approval</mat-checkbox
-          >
-        </div>
-        <div fxFlex="33%" fxFlex.lt-md="100%">
-          <mat-checkbox
-            [(ngModel)]="duplicateVolunteerApproval"
-            [ngModelOptions]="{ standalone: true }"
-            matTooltip="Allows duplicate volunteers."
-            >Duplicate Volunteer Approval</mat-checkbox
-          >
-        </div>
-        <div fxFlex="33%" fxFlex.lt-md="100%">
-          <mat-checkbox
-            [(ngModel)]="checkForMatchingFamily"
-            [ngModelOptions]="{ standalone: true }"
-            matTooltip="Displays list of matching family members."
-            >Check for Matching Family</mat-checkbox
-          >
-        </div>
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <mat-checkbox
+          [(ngModel)]="duplicateVolunteerApproval"
+          [ngModelOptions]="{ standalone: true }"
+          matTooltip="Allows duplicate volunteers."
+          >Duplicate Volunteer Approval</mat-checkbox
+        >
       </div>
+      <div fxFlex="33%" fxFlex.lt-md="100%">
+        <mat-checkbox
+          [(ngModel)]="checkForMatchingFamily"
+          [ngModelOptions]="{ standalone: true }"
+          matTooltip="Displays list of matching family members."
+          >Check for Matching Family</mat-checkbox
+        >
+      </div>
+    </div>
 
-      <mat-card-actions fxLayout fxLayoutAlign="space-evenly">
-        <button mat-stroked-button color="primary" routerLink="/events">
-          <mat-icon>arrow_back</mat-icon>
-          Events
-        </button>
-        <button mat-stroked-button color="primary" type="submit" value="Submit">
-          <mat-icon>save</mat-icon>
-          Save
-        </button>
-        <button mat-stroked-button color="warn" routerLink="/events">
-          <mat-icon>cancel</mat-icon>
-          Cancel
-        </button>
-      </mat-card-actions>
-    </form>
-  </mat-card>
-  <ng-template #loading>Loading volunteer...</ng-template>
-</div>
+    <mat-card-actions fxLayout fxLayoutAlign="space-evenly">
+      <button mat-stroked-button color="primary" routerLink="/events">
+        <mat-icon>arrow_back</mat-icon>
+        Events
+      </button>
+      <button mat-stroked-button color="primary" type="submit" value="Submit">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      <button mat-stroked-button color="warn" routerLink="/events">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+<ng-template #loading>Loading volunteer...</ng-template>
